@@ -2,7 +2,7 @@ tp xml
 
 Partie 1 : 
 
-1) Eléments manquants :
+1) ElÃ©ments manquants :
 	- 	E-mail
 
 Etape 2 : 
@@ -11,13 +11,13 @@ Etape 2 :
 1.2) /texte/corps/paragraphe[@type = "dialogue"]
 1.3) /texte/corps/paragraphe/phrase[@langue = "francais"]
 1.4) /texte/corps/paragraphe/phrase[2] OU //phrase[2]
-1.5) on prend la 10 ème de toutes les phrases : (//phrase)[10] ou encore /descendant::phrase[10]
+1.5) on prend la 10Ã¨me de toutes les phrases : (//phrase)[10] ou encore /descendant::phrase[10]
 1.6) //phrase[contains(., "mouton")]
 1.7) distinct-values(//phrase/@modalite) OU (mieux ) //phrase[not (@modalite = preceding::phrase/@modalite )]/@modalite
 
-//phrase[not (@modalite = preceding::phrase/@modalite )] : récupère les premières phrases ayant un attribut qui n'est pas encore enregistré
-pour obtenir le nom des modalités : //phrase[not (@modalite = preceding::phrase/@modalite )]/@modalite
-preceding est défini uniquement qu'au niveau des noeuds, pas sur les attributs
+//phrase[not (@modalite = preceding::phrase/@modalite )] : rÃ©cupÃ©re les premiÃ¨res phrases ayant un attribut qui n'est pas encore enregistrÃ©
+pour obtenir le nom des modalitÃ©s : //phrase[not (@modalite = preceding::phrase/@modalite )]/@modalite
+preceding est dÃ©fini uniquement qu'au niveau des noeuds, pas sur les attributs
 
 ETPAE 3  Mise en forme du corpus Le Petit Prince [XSLT] : 
 
