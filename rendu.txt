@@ -1,0 +1,24 @@
+tp xml
+
+Partie 1 : 
+
+1) Eléments manquants :
+	- 	E-mail
+
+Etape 2 : 
+
+1.1)/child::texte/child::en-tete/child::info_traitements/child::mise_en_forme_par/child::unCreateur, FA : /texte/en-tete/info_traitements/mise_en_forme_par/unCreateur
+1.2) /texte/corps/paragraphe[@type = "dialogue"]
+1.3) /texte/corps/paragraphe/phrase[@langue = "francais"]
+1.4) /texte/corps/paragraphe/phrase[2] OU //phrase[2]
+1.5) on prend la 10 ème de toutes les phrases : (//phrase)[10] ou encore /descendant::phrase[10]
+1.6) //phrase[contains(., "mouton")]
+1.7) distinct-values(//phrase/@modalite) OU (mieux ) //phrase[not (@modalite = preceding::phrase/@modalite )]/@modalite
+
+//phrase[not (@modalite = preceding::phrase/@modalite )] : récupère les premières phrases ayant un attribut qui n'est pas encore enregistré
+pour obtenir le nom des modalités : //phrase[not (@modalite = preceding::phrase/@modalite )]/@modalite
+preceding est défini uniquement qu'au niveau des noeuds, pas sur les attributs
+
+ETPAE 3  Mise en forme du corpus Le Petit Prince [XSLT] : 
+
+3.1) 
