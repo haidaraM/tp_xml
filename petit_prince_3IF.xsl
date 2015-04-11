@@ -2,6 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:output method="html"/>
   <xsl:template match="/">
+    <!-- Corps HTML -->
     <html>
       <head>
         <title>
@@ -132,7 +133,7 @@
     </p>
   </xsl:template>
 
-  <!-- Image de la caisse mouton -->
+  <!-- Image de la caisse du mouton -->
   <xsl:template match="image">
     <div style="text-align:center">
       <img src="{@chemin}" alt=""/>
