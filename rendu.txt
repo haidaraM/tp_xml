@@ -19,6 +19,72 @@ Etape 2 :
 pour obtenir le nom des modalités : //phrase[not (@modalite = preceding::phrase/@modalite )]/@modalite
 preceding est défini uniquement qu'au niveau des noeuds, pas sur les attributs
 
-ETPAE 3  Mise en forme du corpus Le Petit Prince [XSLT] : 
 
-3.1) 
+
+Partie 2 :
+2.1) 
+<phrases>{
+for $p in //phrase[@langue="francais"]
+order by $p
+return $p
+}</phrases>
+
+2.2)
+<phrases>{
+for $p in //phrase[contains(.,"mouton")]
+return $p
+}</phrases> 
+
+<phrases>{
+for $p in //phrase
+where $p[contains(.,"mouton")]
+return $p
+}</phrases> 
+
+2.3)
+<paragraphes>{
+for $p in //paragraphe
+return <paragraphe Type="{data($p/@type)}" phrases="{count($p/phrase)}"> 
+{
+  for $m in distinct-values($p/phrase/@modalite)
+  return <modalite> {data($m)} </modalite>
+}
+
+{
+  for $l in distinct-values($p/phrase/@locuteur)
+  return <locteur> {data($l)} </locteur>
+}
+ </paragraphe>
+
+}
+</paragraphes> 
+
+2.4) Pas tout à fait correct
+<version_francaise>{
+for $p in //paragraphe/phrase[@langue="francais"]
+return data($p)
+}
+</version_francaise> 
+
+2.5) Pas tout à fait correct non plus
+<paragraphe>
+{
+for $p in //paragraphe/phrase[2]
+return  <phrase> {data($p)} </phrase>
+}</paragraphe> 
+
+2.6)
+<dialogue>{
+for $p in //paragraphe[@type="dialogue"]/phrase[@langue="francais" and @locuteur="Narrateur"]
+return <phrase>{data($p)}</phrase>
+}
+</dialogue> 
+
+2.7)
+let $c := //paragraphe/phrase[contains(.,"mouton") and @locuteur="LePetitPrince"]
+return
+<paragraphe nombre_phrases="{count($c)}">
+{
+for $p in $c
+return  <phrase> {data($p)} </phrase>
+}</paragraphe> 
