@@ -20,6 +20,7 @@
     </html>
   </xsl:template>
 
+  <!-- Mise en forme de l'en-tete -->
   <xsl:template match="en-tete">
     <table align="center" cellspacing="50">
       <tbody>
@@ -61,6 +62,7 @@
     </h3>
   </xsl:template>
 
+  <!-- Mise en forme des dialogues -->
   <xsl:template match="paragraphe[@type='dialogue']">
     <table width="90%" align="center">
       <tbody>
@@ -74,7 +76,17 @@
                       <img src="images/{@locuteur}.png" title="{@locuteur}"/>
                     </td>
                     <td>
-                      <xsl:apply-templates/>
+                      <!-- Si la phrase contient un mouton -->
+                      <xsl:if test="contains(.,'mouton')">
+                        <span style="font-size:24; font-weight:bold">
+                          <xsl:apply-templates/>
+                          <img src="images/moutonDessin.png" title="Mouton"/>
+                        </span>
+                      </xsl:if>
+                      <!-- Sinon -->
+                      <xsl:if test="not(contains(.,'mouton'))">
+                        <xsl:apply-templates/>
+                      </xsl:if>
                     </td>
                   </tr>
                 </xsl:for-each>
@@ -105,6 +117,7 @@
     </table>
   </xsl:template>
 
+  <!-- Mise en forme des narrations -->
   <xsl:template match="paragraphe[@type='narration']">
     <p>
       <xsl:for-each select="phrase[@langue='francais']">
@@ -117,6 +130,13 @@
         </xsl:for-each>
       </span>
     </p>
+  </xsl:template>
+
+  <!-- Image de la caisse mouton -->
+  <xsl:template match="image">
+    <div style="text-align:center">
+      <img src="{@chemin}" alt=""/>
+    </div>
   </xsl:template>
 
 </xsl:stylesheet>
