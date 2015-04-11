@@ -61,19 +61,48 @@
     </h3>
   </xsl:template>
 
-
   <xsl:template match="paragraphe[@type='dialogue']">
-    <p>
-      <xsl:for-each select="phrase[@langue='francais']">
-        <xsl:apply-templates/>
-      </xsl:for-each>
-      <br/>
-      <span style="color:brown; font-style:italic;">
-        <xsl:for-each select="phrase[@langue='hongrois']">
-          <xsl:apply-templates/>
-        </xsl:for-each>
-      </span>
-    </p>
+    <table width="90%" align="center">
+      <tbody>
+        <tr>
+          <td width="45%">
+            <table width="100%" cellpadding="10" border="1">
+              <tbody>
+                <xsl:for-each select="phrase[@langue='francais']">
+                  <tr>
+                    <td width="50">
+                      <img src="images/{@locuteur}.png" title="{@locuteur}"/>
+                    </td>
+                    <td>
+                      <xsl:apply-templates/>
+                    </td>
+                  </tr>
+                </xsl:for-each>
+              </tbody>
+            </table>
+          </td>
+          <td/>
+          <td width="45%">
+            <table width="100%" cellpadding="10" border="1">
+              <tbody>
+                <xsl:for-each select="phrase[@langue='hongrois']">
+                  <tr>
+                    <td width="50">
+                      <img src="images/{@locuteur}.png" title="{@locuteur}"/>
+                    </td>
+                    <td>
+                      <span style="color:brown; font-style:italic;">
+                        <xsl:apply-templates/>
+                      </span>
+                    </td>
+                  </tr>
+                </xsl:for-each>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </xsl:template>
 
   <xsl:template match="paragraphe[@type='narration']">
