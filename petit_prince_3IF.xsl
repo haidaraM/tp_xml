@@ -6,7 +6,7 @@
       <head>
         <title>
           <xsl:value-of select="//titre"/>
-          <xsl:text> de </xsl:text>
+          <xsl:text> de, </xsl:text>
           <xsl:value-of select="//auteur"/>
         </title>
       </head>
@@ -20,42 +20,41 @@
     </html>
   </xsl:template>
 
-
-  <xsl:template match="titre">
-    <h1 style="text-align:center; color:blue;">
-      <xsl:apply-templates/>
-    </h1>
-  </xsl:template>
-
-  <xsl:template match="auteur">
-    <br/>
-    <h2 style="text-align:center; font-style: italic;">
-      <xsl:apply-templates/>
-    </h2>
-    <br/>
-  </xsl:template>
-  
-  
-  <xsl:template match="info_traitements">
-    <img src="images/prince.png"/>
-    <blockquote style="color:darkgreen;">
-      <br/>
-      <xsl:text> But du TP du </xsl:text>
-      <xsl:value-of select="date"/>
-      <xsl:text>: </xsl:text>
-      <xsl:value-of select="but"/>
-      <br/>
-      <xsl:text> Auteurs : </xsl:text>
-      <xsl:value-of select="mise_en_forme_par/unCreateur[1]"/>
-      <xsl:text> et </xsl:text>
-      <xsl:value-of select="mise_en_forme_par/unCreateur[2]"/>
-      <xsl:text> (</xsl:text>
-      <xsl:value-of select="mise_en_forme_par/NoBinome"/>
-      <xsl:text>) </xsl:text>
-      <br/>
-      <xsl:text> Email du responsable : </xsl:text>
-      <xsl:value-of select="email"/>
-    </blockquote>
+  <xsl:template match="en-tete">
+    <table align="center" cellspacing="50">
+      <tbody>
+        <tr>
+          <td>
+            <img src="{couverture/@chemin}"/>
+          </td>
+          <td>
+            <h1 style="text-align:center; color:blue;">
+              <xsl:value-of select="titre"/>
+            </h1>
+            <h2 style="text-align:center; font-style: italic;">
+              <xsl:value-of select="auteur"/>
+            </h2>
+            <blockquote style="color:darkgreen;">
+              <xsl:text> But du TP du </xsl:text>
+              <xsl:value-of select="info_traitements/date"/>
+              <xsl:text>: </xsl:text>
+              <xsl:value-of select="info_traitements/but"/>
+              <br/>
+              <xsl:text> Auteurs : </xsl:text>
+              <xsl:value-of select="info_traitements/mise_en_forme_par/unCreateur[1]"/>
+              <xsl:text> et </xsl:text>
+              <xsl:value-of select="info_traitements/mise_en_forme_par/unCreateur[2]"/>
+              <xsl:text> (</xsl:text>
+              <xsl:value-of select="info_traitements/mise_en_forme_par/NoBinome"/>
+              <xsl:text>) </xsl:text>
+              <br/>
+              <xsl:text> Email du responsable : </xsl:text>
+              <xsl:value-of select="info_traitements/email"/>
+            </blockquote>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <hr/>
     <h3>
       <xsl:text> Début du texte : </xsl:text>
@@ -76,7 +75,7 @@
       </span>
     </p>
   </xsl:template>
-  
+
   <xsl:template match="paragraphe[@type='narration']">
     <p>
       <xsl:for-each select="phrase[@langue='francais']">
