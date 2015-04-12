@@ -59,19 +59,19 @@ return <paragraphe Type="{data($p/@type)}" phrases="{count($p/phrase)}">
 }
 </paragraphes> 
 
-2.4) Pas tout à fait correct
+2.4)
 <version_francaise>{
-for $p in //paragraphe/phrase[@langue="francais"]
-return data($p)
+for $p in //paragraphe
+return <paragraphe> {data($p/phrase[@langue="francais"])} </paragraphe>
 }
 </version_francaise> 
 
-2.5) Pas tout à fait correct non plus
-<paragraphe>
-{
-for $p in //paragraphe/phrase[2]
-return  <phrase> {data($p)} </phrase>
-}</paragraphe> 
+2.5) 
+<version_francaise>{
+for $p in //paragraphe
+return <paragraphe> {data($p/phrase[@langue="francais" and position()=2])} </paragraphe>
+}
+</version_francaise> 
 
 2.6)
 <dialogue>{
