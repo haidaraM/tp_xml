@@ -1,31 +1,56 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-	<meta charset="iso-8859-1">
+    <meta charset="iso-8859-1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title> Partie Ajax par Yoam Hazot et Mohamed HAIDARA - B3446 </title>
+    <title> Partie Ajax par Yoam Hazot et Mohamed HAIDARA - B3446 </title>
 
-	<!-- Bootstrap -->
+    <!-- Bootstrap -->
     <link href="fichiersPourAjax/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         .instruction {
-	        font-style: italic;
-	        color: #006600;
+            font-style: italic;
+            color: #006600;
         }
+
         .thumbnail-size {
             width: 96px;
             padding-right: 10px
         }
+
         .media-list li {
             padding: 5px
         }
     </style>
+    <!-- Partie javascrit -->
+    <script type="text/javascript">
+        // Modifie la couleur de l'arrière plan et la couleur du bouton
+        function setBackgroundAndBoutonColor(){
+            var background = window.document.getElementById("body");
+            background.style.backgroundColor ="#489AFF"
+
+            var bouton = window.document.getElementById("bouton1");
+            bouton.style.color="white"
+        }
+    </script>
 </head>
 
 <body id="body">
 <div class="container">
-	<h1> Partie Ajax par Yoam Hazot et Mohamed HAIDARA - B3446 </h1>
+    <h1> Partie Ajax par Yoam HAZOT et Mohamed HAIDARA - B3446 </h1>
+
+    <h2>Travail réalisé</h2>
+
+    <p>
+    <ol>
+        <li>
+            <input id="bouton1" value="Bouton 1 (fn :setBackgroundAndBoutonColor) " type="button" onclick="setBackgroundAndBoutonColor()">
+        </li>
+
+    </ol>
+
+    </p>
 </div>
 </body>
 </html>
