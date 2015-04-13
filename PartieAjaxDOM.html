@@ -28,6 +28,7 @@
 
         // variable pour checher si un bouton a été cliqué
         var clickBouton2 = false;
+        var clickBouton3 = false;
         var clickBouton4 = false;
 
         //check if the first node is an element node
@@ -160,8 +161,6 @@
             image.setAttribute("class","media-object img-thumbnail responsive");
             image.setAttribute("src",response.Poster);
 
-            // ajout de l'image au lien
-            lien.appendChild(image);
 
             // insertion du lien avant le media-body
             liListe.insertBefore(lien,liListe.childNodes[0]);
@@ -217,8 +216,13 @@
             moreInfos.appendChild(document.createTextNode (" "));
             moreInfos.appendChild(imdbVotesLabel);
 
-            // ajout dans le noeud
-            liListe.getElementsByClassName("media-body")[0].appendChild(moreInfos);
+            if(clickBouton3 == false){
+                clickBouton3 = true;
+                // ajout de l'image au lien
+                lien.appendChild(image);
+                // ajout dans le noeud
+                liListe.getElementsByClassName("media-body")[0].appendChild(moreInfos);
+            }
 
         }
 
@@ -243,6 +247,11 @@
                 // affichage du bouton
                 document.getElementById("liste_bouton").appendChild(li);
             }
+        }
+
+        // met à jour le calendrier complet en ajoutant des images et autres infos
+        function MajAfficheCalendrier(urlJson){
+
         }
 
     </script>
