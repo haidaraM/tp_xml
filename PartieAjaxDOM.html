@@ -27,9 +27,11 @@
     <script type="text/javascript">
         // Modifie la couleur de l'arrière plan et la couleur du bouton
         function setBackgroundAndBoutonColor(){
+            // récupération du body de la page
             var background = window.document.getElementById("body");
             background.style.backgroundColor ="#489AFF"
 
+            // récuperation du bouton
             var bouton = window.document.getElementById("bouton1");
             bouton.style.color="white"
         }
@@ -46,8 +48,10 @@
     <ol>
         <li>
             <input id="bouton1" value="Bouton 1 (fn :setBackgroundAndBoutonColor) " type="button" onclick="setBackgroundAndBoutonColor()">
+        </li> <br/>
+        <li>
+            <input id="bouton2" value="Bouton 2 (fn:)" type="button">
         </li>
-
     </ol>
 
     </p>
