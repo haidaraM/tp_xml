@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <calendar>
     <mise_en_forme_par>
-        <unCreateur>Moi</unCreateur>
-        <unCreateur>Mon binome</unCreateur>
-        <NoBinome>B3100</NoBinome>
+        <unCreateur> Mohamed Haidara</unCreateur>
+        <unCreateur>Yoam Hazot</unCreateur>
+        <NoBinome>B3446</NoBinome>
     </mise_en_forme_par>
-    <date>01/05/2014</date>
+    <date>10/04/2015</date>
     <type>TV Shows</type>
     <version>2.0</version>
     <timezone>Europe/Paris</timezone>

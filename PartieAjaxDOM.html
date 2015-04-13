@@ -35,6 +35,57 @@
             var bouton = window.document.getElementById("bouton1");
             bouton.style.color="white"
         }
+
+        //charge le fichier XML se trouvant à l'URL relative donné dans le paramètre et le retourne
+        function getHttpXML(xmlDocumentUrl) {
+
+            var httpAjax;
+
+            httpAjax = window.XMLHttpRequest ?
+                    new XMLHttpRequest() :
+                    new ActiveXObject('Microsoft.XMLHTTP');
+
+            if (httpAjax.overrideMimeType) {
+                httpAjax.overrideMimeType('text/xml');
+            }
+
+            //chargement du fichier XML à l'aide de XMLHttpRequest synchrone (le 3° paramètre est défini à false)
+            httpAjax.open('GET', xmlDocumentUrl, false);
+            httpAjax.send();
+
+            return httpAjax.responseXML;
+        }
+
+        // affiche les informations des évènements dont le titre contient le mot "Workaholics"
+        function infoWorkaholics(){
+
+            // creation du bouton
+            var bouton = document.createElement("button");
+            var text = document.createTextNode("Bouton 3");
+            bouton.appendChild(text);
+            var li = document.createElement("li");
+            li.appendChild(bouton);
+            document.getElementById("liste_bouton").appendChild(li);
+
+            var xsltProcessor = new XSLTProcessor();
+
+            // Chargement du fichier XSL
+            var xslDocument = getHttpXML('fichiersPourAjax/calendar-eventlist-workaholics.xsl');
+
+            // Importation du .xsl
+            xsltProcessor.importStylesheet(xslDocument);
+
+            // Chargement du fichier XML
+            var xmlDocument = getHttpXML('fichiersPourAjax/calendar-short.xml');
+
+            // Création du document XML transformé par le XSL
+            var newXmlDocuement = xsltProcessor.transformToDocument(xmlDocument);
+            // recuperation du noeud dans le nouveau document
+            var elementAInserer = newXmlDocuement.getElementsByTagName("ul")[0];
+            // ajout du noeaud
+            document.getElementById("aCompleter").appendChild(elementAInserer);
+        }
+
     </script>
 </head>
 
@@ -45,13 +96,14 @@
     <h2>Travail réalisé</h2>
 
     <p>
-    <ol>
+    <ol id="liste_bouton">
         <li>
             <input id="bouton1" value="Bouton 1 (fn :setBackgroundAndBoutonColor) " type="button" onclick="setBackgroundAndBoutonColor()">
         </li> <br/>
         <li>
-            <input id="bouton2" value="Bouton 2 (fn:)" type="button">
-        </li>
+            <input id="bouton2" value="Bouton 2 (fn: infoWorkaholics)" type="button" onclick="infoWorkaholics()">
+            <div id="aCompleter"> </div>
+        </li> <br/>
     </ol>
 
     </p>
