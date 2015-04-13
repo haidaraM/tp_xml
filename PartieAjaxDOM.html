@@ -25,6 +25,8 @@
     </style>
     <!-- Partie javascrit -->
     <script type="text/javascript">
+
+        var click = false;
         // Modifie la couleur de l'arrière plan et la couleur du bouton
         function setBackgroundAndBoutonColor(){
             // récupération du body de la page
@@ -34,6 +36,28 @@
             // récuperation du bouton
             var bouton = window.document.getElementById("bouton1");
             bouton.style.color="white"
+        }
+
+        // Charge le fichier JSON se trouvant à l'URL donnée en paramètre et le retourne
+        function getHttpJSON(jsonDocumentUrl) {
+
+            var httpAjax;
+
+            httpAjax = window.XMLHttpRequest ?
+                    new XMLHttpRequest() :
+                    new ActiveXObject('Microsoft.XMLHTTP');
+
+            if (httpAjax.overrideMimeType) {
+                httpAjax.overrideMimeType('text/xml');
+            }
+
+            // chargement du fichier JSON à l'aide de XMLHttpRequest synchrone (le 3° paramètre est défini à false)
+            httpAjax.open('GET', jsonDocumentUrl, false);
+            httpAjax.send();
+
+            var responseData = eval("(" + httpAjax.responseText + ")");
+
+            return responseData;
         }
 
         //charge le fichier XML se trouvant à l'URL relative donné dans le paramètre et le retourne
@@ -61,11 +85,17 @@
 
             // creation du bouton
             var bouton = document.createElement("button");
-            var text = document.createTextNode("Bouton 3");
+            // creation du texte du bouton
+            var text = document.createTextNode("Bouton 3 (fn : MajInfoWorkaholics)");
+
+            // attributs du bouton : fonction à declencher et css
+            bouton.setAttribute("onclick","MajInfoWorkaholics()");
+            bouton.setAttribute("class","btn btn-default");
+
             bouton.appendChild(text);
             var li = document.createElement("li");
             li.appendChild(bouton);
-            document.getElementById("liste_bouton").appendChild(li);
+
 
             var xsltProcessor = new XSLTProcessor();
 
@@ -82,8 +112,19 @@
             var newXmlDocuement = xsltProcessor.transformToDocument(xmlDocument);
             // recuperation du noeud dans le nouveau document
             var elementAInserer = newXmlDocuement.getElementsByTagName("ul")[0];
-            // ajout du noeaud
-            document.getElementById("aCompleter").appendChild(elementAInserer);
+
+            // pour éviter plusieurs boutons et informations concernant la série
+            if(click == false){
+                click = true;
+                // affichage du bouton
+                document.getElementById("liste_bouton").appendChild(li);
+                // ajout du noeud
+                document.getElementById("aCompleter").appendChild(elementAInserer);
+            }
+        }
+
+        function MajInfoWorkaholics(){
+
         }
 
     </script>
@@ -98,13 +139,14 @@
     <p>
     <ol id="liste_bouton">
         <li>
-            <input id="bouton1" value="Bouton 1 (fn :setBackgroundAndBoutonColor) " type="button" onclick="setBackgroundAndBoutonColor()">
+            <input id="bouton1" class="btn btn-default" value="Bouton 1 (fn :setBackgroundAndBoutonColor) " type="button" onclick="setBackgroundAndBoutonColor()">
         </li> <br/>
         <li>
-            <input id="bouton2" value="Bouton 2 (fn: infoWorkaholics)" type="button" onclick="infoWorkaholics()">
-            <div id="aCompleter"> </div>
+            <input id="bouton2" class="btn btn-default" value="Bouton 2 (fn: infoWorkaholics)" type="button" onclick="infoWorkaholics()">
         </li> <br/>
     </ol>
+
+    <div id="aCompleter"> </div>
 
     </p>
 </div>
