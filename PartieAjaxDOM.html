@@ -90,7 +90,7 @@
         }
 
         // affiche les informations des évènements dont le titre contient le mot "Workaholics"
-        function infoWorkaholics(){
+        function infoWorkaholics(urlJson){
 
             // creation du bouton
             var bouton = document.createElement("button");
@@ -98,7 +98,9 @@
             var text = document.createTextNode("Bouton 3 (fn : MajInfoWorkaholics)");
 
             // attributs du bouton : fonction à declencher et css
-            bouton.setAttribute("onclick","MajInfoWorkaholics()");
+            var parameters = "MajInfoWorkaholics(\"" + urlJson +"\")";
+
+            bouton.setAttribute("onclick",parameters);
             bouton.setAttribute("class","btn btn-default");
 
             bouton.appendChild(text);
@@ -133,23 +135,82 @@
         }
 
         function MajInfoWorkaholics(urlJSOn){
+
+            // Chargement du fichier JSON
+            var response = getHttpJSON(urlJSOn);
+
             // on recupere le noeud li
             var liListe = document.getElementById("aCompleter").getElementsByClassName("media")[0];
 
             // creation du lien et mise en place des attributs
             var lien = document.createElement("a");
             lien.setAttribute("class","pull-left thumbnail-size");
-            lien.setAttribute("href","http://www.google.fr");
+            lien.setAttribute("href",response.Poster);
 
+            // creation de l'image et mise en place des attributs
             var image = document.createElement("img");
             image.setAttribute("class","media-object img-thumbnail responsive");
-            image.setAttribute("src","http://ia.media-imdb.com/images/M/MV5BMTU3MDE2Mjg0NF5BMl5BanBnXkFtZTgwMzYyMzc1MDE@._V1_SX300.jpg");
+            image.setAttribute("src",response.Poster);
 
             // ajout de l'image au lien
             lien.appendChild(image);
 
             // insertion du lien avant le media-body
             liListe.insertBefore(lien,liListe.childNodes[0]);
+
+            // Création de l'élément <div> correspondant aux caractéritiques du programme
+            var moreInfos = document.createElement("div");
+
+            // creation des labels
+            var yearLabel = document.createElement("span");
+            yearLabel.setAttribute("class", "label label-default");
+            yearLabel.innerHTML = response.Year;
+            var ratedLabel = document.createElement("span");
+            ratedLabel.setAttribute("class", "label label-default");
+            ratedLabel.innerHTML = response.Rated;
+            var releasedLabel = document.createElement("span");
+            releasedLabel.setAttribute("class", "label label-default");
+            releasedLabel.innerHTML = response.Released;
+            var runtimeLabel = document.createElement("span");
+            runtimeLabel.setAttribute("class", "label label-default");
+            runtimeLabel.innerHTML = response.Runtime;
+            var genreLabel = document.createElement("span");
+            genreLabel.setAttribute("class", "label label-default");
+            genreLabel.innerHTML = response.Genre;
+            var languageLabel = document.createElement("span");
+            languageLabel.setAttribute("class", "label label-default");
+            languageLabel.innerHTML = response.Language;
+            var countryLabel = document.createElement("span");
+            countryLabel.setAttribute("class", "label label-default");
+            countryLabel.innerHTML = response.Country;
+            var imdbRatingLabel = document.createElement("span");
+            imdbRatingLabel.setAttribute("class", "label label-default");
+            imdbRatingLabel.innerHTML = response.imdbRating;
+            var imdbVotesLabel = document.createElement("span");
+            imdbVotesLabel.setAttribute("class", "label label-default");
+            imdbVotesLabel.innerHTML = response.imdbVotes;
+
+            //ajout des labels
+            moreInfos.appendChild(yearLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(ratedLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(releasedLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(runtimeLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(genreLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(languageLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(countryLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(imdbRatingLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(imdbVotesLabel);
+
+
+            liListe.getElementsByClassName("media-body")[0].appendChild(moreInfos);
 
         }
 
@@ -168,7 +229,7 @@
             <input id="bouton1" class="btn btn-default" value="Bouton 1 (fn :setBackgroundAndBoutonColor) " type="button" onclick="setBackgroundAndBoutonColor()">
         </li> <br/>
         <li>
-            <input id="bouton2" class="btn btn-default" value="Bouton 2 (fn: infoWorkaholics)" type="button" onclick="infoWorkaholics()">
+            <input id="bouton2" class="btn btn-default" value="Bouton 2 (fn: infoWorkaholics)" type="button" onclick="infoWorkaholics('http://www.omdbapi.com/?t=workaholics&y=&plot=short&r=json')">
         </li> <br/>
     </ol>
 
