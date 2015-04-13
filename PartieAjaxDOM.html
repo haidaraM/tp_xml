@@ -25,6 +25,11 @@
     </style>
     <!-- Partie javascrit -->
     <script type="text/javascript">
+
+        // variable pour checher si un bouton a été cliqué
+        var clickBouton2 = false;
+        var clickBouton4 = false;
+
         //check if the first node is an element node
         function recupererPremierElementEnfant(n) {
             x = n.firstChild;
@@ -35,7 +40,6 @@
             return x;
         }
 
-        var click = false;
         // Modifie la couleur de l'arrière plan et la couleur du bouton
         function setBackgroundAndBoutonColor(){
             // récupération du body de la page
@@ -123,8 +127,8 @@
             var elementAInserer = newXmlDocuement.getElementsByTagName("ul")[0];
 
             // pour éviter plusieurs boutons et informations concernant la série
-            if(click == false){
-                click = true;
+            if(clickBouton2 == false){
+                clickBouton2 = true;
 
                 // ajout d'un saut de ligne avant le bouton
                 document.getElementById("liste_bouton").insertBefore(document.createElement("br"),document.getElementById("aCompleter"));
@@ -219,8 +223,26 @@
         }
 
         //affiche le calendrier complet en utilisant une feuille de style
-        function afficheCalendrier(){
-            
+        function afficheCalendrier(urlJson){
+            // creation du bouton
+            var bouton = document.createElement("button");
+            // creation du texte du bouton
+            var text = document.createTextNode("Bouton 5 (fn : MajAfficheCalendrier)");
+
+            // attributs du bouton : fonction à declencher et css
+            var parameters = "MajAfficheCalendrier(\"" + urlJson +"\")";
+            bouton.setAttribute("onclick",parameters);
+            bouton.setAttribute("class","btn btn-default");
+            bouton.appendChild(text);
+            var li = document.createElement("li");
+            li.appendChild(bouton);
+
+            if(clickBouton4 == false)
+            {
+                clickBouton4 = true;
+                // affichage du bouton
+                document.getElementById("liste_bouton").appendChild(li);
+            }
         }
 
     </script>
@@ -242,7 +264,7 @@
         </li>
     <div id="aCompleter"> </div> <br/>
         <li>
-            <input id="bouton4" class="btn btn-default" value="Bouton 4" type="button"/>
+            <input id="bouton4" class="btn btn-default" value="Bouton 4 (fn :afficheCalendrier) " type="button" onclick="afficheCalendrier()"/>
         </li><br/>
     </ul>
 
