@@ -99,14 +99,12 @@
 
             // attributs du bouton : fonction à declencher et css
             var parameters = "MajInfoWorkaholics(\"" + urlJson +"\")";
-
             bouton.setAttribute("onclick",parameters);
             bouton.setAttribute("class","btn btn-default");
 
             bouton.appendChild(text);
             var li = document.createElement("li");
             li.appendChild(bouton);
-
 
             var xsltProcessor = new XSLTProcessor();
 
@@ -127,13 +125,19 @@
             // pour éviter plusieurs boutons et informations concernant la série
             if(click == false){
                 click = true;
+
+                // ajout d'un saut de ligne avant le bouton
+                document.getElementById("liste_bouton").insertBefore(document.createElement("br"),document.getElementById("aCompleter"));
+
                 // affichage du bouton
-                document.getElementById("liste_bouton").appendChild(li);
+                document.getElementById("liste_bouton").insertBefore(li,document.getElementById("aCompleter"));
+
                 // ajout du noeud recupéré dans le document transformé
                 document.getElementById("aCompleter").appendChild(elementAInserer);
             }
         }
 
+        // recupere les informations à partir de l'API omdb
         function MajInfoWorkaholics(urlJSOn){
 
             // Chargement du fichier JSON
@@ -209,9 +213,14 @@
             moreInfos.appendChild(document.createTextNode (" "));
             moreInfos.appendChild(imdbVotesLabel);
 
-
+            // ajout dans le noeud
             liListe.getElementsByClassName("media-body")[0].appendChild(moreInfos);
 
+        }
+
+        //affiche le calendrier complet en utilisant une feuille de style
+        function afficheCalendrier(){
+            
         }
 
     </script>
@@ -224,16 +233,20 @@
     <h2>Travail réalisé</h2>
 
     <p>
-    <ol id="liste_bouton">
+    <ul id="liste_bouton">
         <li>
-            <input id="bouton1" class="btn btn-default" value="Bouton 1 (fn :setBackgroundAndBoutonColor) " type="button" onclick="setBackgroundAndBoutonColor()">
+            <input id="bouton1" class="btn btn-default" value="Bouton 1 (fn :setBackgroundAndBoutonColor) " type="button" onclick="setBackgroundAndBoutonColor()"/>
         </li> <br/>
         <li>
-            <input id="bouton2" class="btn btn-default" value="Bouton 2 (fn: infoWorkaholics)" type="button" onclick="infoWorkaholics('http://www.omdbapi.com/?t=workaholics&y=&plot=short&r=json')">
-        </li> <br/>
-    </ol>
+            <input id="bouton2" class="btn btn-default" value="Bouton 2 (fn: infoWorkaholics)" type="button" onclick="infoWorkaholics('http://www.omdbapi.com/?t=workaholics&y=&plot=short&r=json')"/>
+        </li>
+    <div id="aCompleter"> </div> <br/>
+        <li>
+            <input id="bouton4" class="btn btn-default" value="Bouton 4" type="button"/>
+        </li><br/>
+    </ul>
 
-    <div id="aCompleter"> </div>
+
 
     </p>
 </div>
