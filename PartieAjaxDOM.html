@@ -25,6 +25,15 @@
     </style>
     <!-- Partie javascrit -->
     <script type="text/javascript">
+        //check if the first node is an element node
+        function recupererPremierElementEnfant(n) {
+            x = n.firstChild;
+            while ( x.nodeType != 1 ) { // Test if x is an element node (and not a text node or other)
+                x = x.nextSibling;
+            }
+
+            return x;
+        }
 
         var click = false;
         // Modifie la couleur de l'arrière plan et la couleur du bouton
@@ -118,12 +127,29 @@
                 click = true;
                 // affichage du bouton
                 document.getElementById("liste_bouton").appendChild(li);
-                // ajout du noeud
+                // ajout du noeud recupéré dans le document transformé
                 document.getElementById("aCompleter").appendChild(elementAInserer);
             }
         }
 
-        function MajInfoWorkaholics(){
+        function MajInfoWorkaholics(urlJSOn){
+            // on recupere le noeud li
+            var liListe = document.getElementById("aCompleter").getElementsByClassName("media")[0];
+
+            // creation du lien et mise en place des attributs
+            var lien = document.createElement("a");
+            lien.setAttribute("class","pull-left thumbnail-size");
+            lien.setAttribute("href","http://www.google.fr");
+
+            var image = document.createElement("img");
+            image.setAttribute("class","media-object img-thumbnail responsive");
+            image.setAttribute("src","http://ia.media-imdb.com/images/M/MV5BMTU3MDE2Mjg0NF5BMl5BanBnXkFtZTgwMzYyMzc1MDE@._V1_SX300.jpg");
+
+            // ajout de l'image au lien
+            lien.appendChild(image);
+
+            // insertion du lien avant le media-body
+            liListe.insertBefore(lien,liListe.childNodes[0]);
 
         }
 
