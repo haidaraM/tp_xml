@@ -1,10 +1,13 @@
 /**
  * Created by elmhaidara on 14/04/15.
  */
-// variable pour checher si un bouton a été cliqué
+// variables pour checker si un bouton a été cliqué
 var clickBouton2 = false;
 var clickBouton3 = false;
 var clickBouton4 = false;
+var clickBouton5 = false; // not used for the moment
+
+
 //check if the first node is an element node
 function recupererPremierElementEnfant(n) {
     x = n.firstChild;
@@ -33,7 +36,7 @@ function xmlTransformByXsl(xmlDocumentUrl, xslDocumentUrl){
     return newXmlDocuement;
 }
 
-// crée un div pour les informations en lab et le retourne
+// crée un div pour les informations en label et le retourne
 function createDivLabel(responseJson){
     // Création de l'élément <div> correspondant aux caractéritiques du programme
     var moreInfos = document.createElement("div");
@@ -90,11 +93,11 @@ function createDivLabel(responseJson){
 
 }
 
-// Modifie la couleur de l'arrière plan et la couleur du bouton
+// Modifie la couleur de l'arrière plan et la couleur du bouton cliqué
 function setBackgroundAndBoutonColor(){
     // récupération du body de la page
     var background = window.document.getElementById("body");
-    background.style.backgroundColor ="#489AFF"
+    background.style.backgroundColor ="#489AFF"; // couleur bleue
 
     // récuperation du bouton
     var bouton = window.document.getElementById("bouton1");
@@ -155,15 +158,18 @@ function infoWorkaholics(xmlDocumentUrl,xslDocumentUrl,urlJson){
     var parameters = "MajInfoWorkaholics(\"" + urlJson +"\")";
     bouton.setAttribute("onclick",parameters);
     bouton.setAttribute("class","btn btn-default");
+    bouton.setAttribute("id","bouton3");
 
+    // ajout du texte au bouton
     bouton.appendChild(text);
     var li = document.createElement("li");
+    // ajout du bouton au li
     li.appendChild(bouton);
 
     // Création du document XML transformé par le XSL
     var newXmlDocument = xmlTransformByXsl(xmlDocumentUrl,xslDocumentUrl);
 
-    // recuperation du noeud dans le nouveau document
+    // recuperation du noeud conserné dans le nouveau document
     var elementAInserer = newXmlDocument.getElementsByTagName("ul")[0];
 
     // pour éviter plusieurs boutons et informations concernant la série
@@ -181,7 +187,7 @@ function infoWorkaholics(xmlDocumentUrl,xslDocumentUrl,urlJson){
     }
 }
 
-//crée une balise a avec une image dont l'url est passé en paramètre => renvoie le lien (la balise a)
+//crée une balise <a> avec une image dont l'url est passé en paramètre => renvoie le lien (la balise a)
 function createImage(poster){
 
     // creation du lien et mise en place des attributs
@@ -201,7 +207,7 @@ function createImage(poster){
 
 }
 
-// recupere les informations à partir de l'API omdb
+// recupere les informations à partir de l'API omdb pour la série workaholics
 function MajInfoWorkaholics(urlJSOn){
 
     // Chargement du fichier JSON
@@ -227,7 +233,7 @@ function MajInfoWorkaholics(urlJSOn){
 
 }
 
-//affiche le calendrier complet en utilisant une feuille de style
+//affiche le calendrier complet en utilisant une feuille de style xsl
 function afficheCalendrier(xmlDocumentUrl,xslDocumentUrl){
     // creation du bouton
     var bouton = document.createElement("button");
@@ -242,6 +248,7 @@ function afficheCalendrier(xmlDocumentUrl,xslDocumentUrl){
     // attributs du bouton : fonction à declencher et css
     bouton.setAttribute("onclick","MajAfficheCalendrier()" );
     bouton.setAttribute("class","btn btn-default");
+    bouton.setAttribute("id","bouton5");
     bouton.appendChild(text);
     var li = document.createElement("li");
     li.appendChild(bouton);
@@ -271,19 +278,20 @@ function MajAfficheCalendrier(){
     var listeElementsAInserer = document.getElementById("aCompleterBouton4").getElementsByClassName("media");
 
     for(var k=0; k<listeElementsAInserer.length;k++){
-        // on recupere le titre de la série courante
+        // on recupere le titre de la série courante pour interoger l'api
         var titre = listeElementsAInserer[k].getElementsByClassName("media-heading")[0];
         //on cree l'url json avec le titre de la série
         var urlJson = "http://www.omdbapi.com/?t="+titre.innerHTML+"&y=&plot=short&r=json";
         // Chargement du fichier JSON
         var response = getHttpJSON(urlJson);
 
-        // création et ajout de l'image
+        // création de l'image
         var lien = createImage(response.Poster);
 
-        // insertion du lien avant le media-body
+        // insertion de l'image avant le media-body
         listeElementsAInserer[k].insertBefore(lien,listeElementsAInserer[k].childNodes[0]);
 
+        // création des informations complémentaires
         var moreInfo = createDivLabel(response);
         // ajout des labels dans le noeud
         listeElementsAInserer[k].getElementsByClassName("media-body")[0].appendChild(moreInfo);
