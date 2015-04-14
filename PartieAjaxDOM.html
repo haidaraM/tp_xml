@@ -59,6 +59,63 @@
             return newXmlDocuement;
         }
 
+        // crée un div pour les informations en lab et le retourne
+        function createDivLabel(responseJson){
+            // Création de l'élément <div> correspondant aux caractéritiques du programme
+            var moreInfos = document.createElement("div");
+
+            // creation des labels
+            var yearLabel = document.createElement("span");
+            yearLabel.setAttribute("class", "label label-default");
+            yearLabel.innerHTML = responseJson.Year;
+            var ratedLabel = document.createElement("span");
+            ratedLabel.setAttribute("class", "label label-default");
+            ratedLabel.innerHTML = responseJson.Rated;
+            var releasedLabel = document.createElement("span");
+            releasedLabel.setAttribute("class", "label label-default");
+            releasedLabel.innerHTML = responseJson.Released;
+            var runtimeLabel = document.createElement("span");
+            runtimeLabel.setAttribute("class", "label label-default");
+            runtimeLabel.innerHTML = responseJson.Runtime;
+            var genreLabel = document.createElement("span");
+            genreLabel.setAttribute("class", "label label-default");
+            genreLabel.innerHTML = responseJson.Genre;
+            var languageLabel = document.createElement("span");
+            languageLabel.setAttribute("class", "label label-default");
+            languageLabel.innerHTML = responseJson.Language;
+            var countryLabel = document.createElement("span");
+            countryLabel.setAttribute("class", "label label-default");
+            countryLabel.innerHTML = responseJson.Country;
+            var imdbRatingLabel = document.createElement("span");
+            imdbRatingLabel.setAttribute("class", "label label-default");
+            imdbRatingLabel.innerHTML = responseJson.imdbRating;
+            var imdbVotesLabel = document.createElement("span");
+            imdbVotesLabel.setAttribute("class", "label label-default");
+            imdbVotesLabel.innerHTML = responseJson.imdbVotes;
+
+            //ajout des labels
+            moreInfos.appendChild(yearLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(ratedLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(releasedLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(runtimeLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(genreLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(languageLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(countryLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(imdbRatingLabel);
+            moreInfos.appendChild(document.createTextNode (" "));
+            moreInfos.appendChild(imdbVotesLabel);
+
+            return moreInfos;
+
+        }
+
         // Modifie la couleur de l'arrière plan et la couleur du bouton
         function setBackgroundAndBoutonColor(){
             // récupération du body de la page
@@ -168,61 +225,12 @@
             var image = document.createElement("img");
             image.setAttribute("class","media-object img-thumbnail responsive");
             image.setAttribute("src",response.Poster);
-
-
+            
             // insertion du lien avant le media-body
             liListe.insertBefore(lien,liListe.childNodes[0]);
 
             // Création de l'élément <div> correspondant aux caractéritiques du programme
-            var moreInfos = document.createElement("div");
-
-            // creation des labels
-            var yearLabel = document.createElement("span");
-            yearLabel.setAttribute("class", "label label-default");
-            yearLabel.innerHTML = response.Year;
-            var ratedLabel = document.createElement("span");
-            ratedLabel.setAttribute("class", "label label-default");
-            ratedLabel.innerHTML = response.Rated;
-            var releasedLabel = document.createElement("span");
-            releasedLabel.setAttribute("class", "label label-default");
-            releasedLabel.innerHTML = response.Released;
-            var runtimeLabel = document.createElement("span");
-            runtimeLabel.setAttribute("class", "label label-default");
-            runtimeLabel.innerHTML = response.Runtime;
-            var genreLabel = document.createElement("span");
-            genreLabel.setAttribute("class", "label label-default");
-            genreLabel.innerHTML = response.Genre;
-            var languageLabel = document.createElement("span");
-            languageLabel.setAttribute("class", "label label-default");
-            languageLabel.innerHTML = response.Language;
-            var countryLabel = document.createElement("span");
-            countryLabel.setAttribute("class", "label label-default");
-            countryLabel.innerHTML = response.Country;
-            var imdbRatingLabel = document.createElement("span");
-            imdbRatingLabel.setAttribute("class", "label label-default");
-            imdbRatingLabel.innerHTML = response.imdbRating;
-            var imdbVotesLabel = document.createElement("span");
-            imdbVotesLabel.setAttribute("class", "label label-default");
-            imdbVotesLabel.innerHTML = response.imdbVotes;
-
-            //ajout des labels
-            moreInfos.appendChild(yearLabel);
-            moreInfos.appendChild(document.createTextNode (" "));
-            moreInfos.appendChild(ratedLabel);
-            moreInfos.appendChild(document.createTextNode (" "));
-            moreInfos.appendChild(releasedLabel);
-            moreInfos.appendChild(document.createTextNode (" "));
-            moreInfos.appendChild(runtimeLabel);
-            moreInfos.appendChild(document.createTextNode (" "));
-            moreInfos.appendChild(genreLabel);
-            moreInfos.appendChild(document.createTextNode (" "));
-            moreInfos.appendChild(languageLabel);
-            moreInfos.appendChild(document.createTextNode (" "));
-            moreInfos.appendChild(countryLabel);
-            moreInfos.appendChild(document.createTextNode (" "));
-            moreInfos.appendChild(imdbRatingLabel);
-            moreInfos.appendChild(document.createTextNode (" "));
-            moreInfos.appendChild(imdbVotesLabel);
+            var moreInfos = createDivLabel(response);
 
             if(clickBouton3 == false){
                 clickBouton3 = true;
