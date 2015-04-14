@@ -37,8 +37,26 @@
             while ( x.nodeType != 1 ) { // Test if x is an element node (and not a text node or other)
                 x = x.nextSibling;
             }
-
             return x;
+        }
+
+        // transforme un document xml à travers une feuille de style xsl
+        function xmlTransformByXsl(xmlDocumentUrl, xslDocumentUrl){
+            var xsltProcessor = new XSLTProcessor();
+
+            // Chargement du fichier XSL
+            var xslDocument = getHttpXML(xslDocumentUrl);
+
+            // Importation du .xsl
+            xsltProcessor.importStylesheet(xslDocument);
+
+            // Chargement du fichier XML
+            var xmlDocument = getHttpXML(xmlDocumentUrl);
+
+            // Création du document XML transformé par le XSL
+            var newXmlDocuement = xsltProcessor.transformToDocument(xmlDocument);
+
+            return newXmlDocuement;
         }
 
         // Modifie la couleur de l'arrière plan et la couleur du bouton
@@ -95,7 +113,7 @@
         }
 
         // affiche les informations des évènements dont le titre contient le mot "Workaholics"
-        function infoWorkaholics(urlJson){
+        function infoWorkaholics(xmlDocumentUrl,xslDocumentUrl,urlJson){
 
             // creation du bouton
             var bouton = document.createElement("button");
@@ -111,34 +129,24 @@
             var li = document.createElement("li");
             li.appendChild(bouton);
 
-            var xsltProcessor = new XSLTProcessor();
-
-            // Chargement du fichier XSL
-            var xslDocument = getHttpXML('fichiersPourAjax/calendar-eventlist-workaholics.xsl');
-
-            // Importation du .xsl
-            xsltProcessor.importStylesheet(xslDocument);
-
-            // Chargement du fichier XML
-            var xmlDocument = getHttpXML('fichiersPourAjax/calendar-short.xml');
-
             // Création du document XML transformé par le XSL
-            var newXmlDocuement = xsltProcessor.transformToDocument(xmlDocument);
+            var newXmlDocument = xmlTransformByXsl(xmlDocumentUrl,xslDocumentUrl);
+
             // recuperation du noeud dans le nouveau document
-            var elementAInserer = newXmlDocuement.getElementsByTagName("ul")[0];
+            var elementAInserer = newXmlDocument.getElementsByTagName("ul")[0];
 
             // pour éviter plusieurs boutons et informations concernant la série
             if(clickBouton2 == false){
                 clickBouton2 = true;
 
                 // ajout d'un saut de ligne avant le bouton
-                document.getElementById("liste_bouton").insertBefore(document.createElement("br"),document.getElementById("aCompleter"));
+                document.getElementById("liste_bouton").insertBefore(document.createElement("br"),document.getElementById("aCompleterBouton2"));
 
                 // affichage du bouton
-                document.getElementById("liste_bouton").insertBefore(li,document.getElementById("aCompleter"));
+                document.getElementById("liste_bouton").insertBefore(li,document.getElementById("aCompleterBouton2"));
 
                 // ajout du noeud recupéré dans le document transformé
-                document.getElementById("aCompleter").appendChild(elementAInserer);
+                document.getElementById("aCompleterBouton2").appendChild(elementAInserer);
             }
         }
 
@@ -149,7 +157,7 @@
             var response = getHttpJSON(urlJSOn);
 
             // on recupere le noeud li
-            var liListe = document.getElementById("aCompleter").getElementsByClassName("media")[0];
+            var liListe = document.getElementById("aCompleterBouton2").getElementsByClassName("media")[0];
 
             // creation du lien et mise en place des attributs
             var lien = document.createElement("a");
@@ -227,7 +235,7 @@
         }
 
         //affiche le calendrier complet en utilisant une feuille de style
-        function afficheCalendrier(urlJson){
+        function afficheCalendrier(xmlDocumentUrl,xslDocumentUrl,urlJson){
             // creation du bouton
             var bouton = document.createElement("button");
             // creation du texte du bouton
@@ -241,11 +249,24 @@
             var li = document.createElement("li");
             li.appendChild(bouton);
 
+            // creation et récuperation du nouveau document transformé
+            var xmlDocumentTransformed = xmlTransformByXsl(xmlDocumentUrl, xslDocumentUrl);
+            // récuperation de la liste des elements
+            var listeElementsAInserer = xmlDocumentTransformed.getElementsByTagName("ul");
+
             if(clickBouton4 == false)
             {
-                clickBouton4 = true;
                 // affichage du bouton
-                document.getElementById("liste_bouton").appendChild(li);
+                document.getElementById("liste_bouton").insertBefore(li,document.getElementById("aCompleterBouton4"));
+                clickBouton4 = true;
+                // parcours et affichage de la liste des éléments
+                for(i=0; i<listeElementsAInserer.length;i++){
+                    // ajout du noeud recupéré dans le document transformé
+                    document.getElementById("aCompleterBouton4").appendChild(listeElementsAInserer[i]);
+                }
+                //petit saut de ligne
+                document.getElementById("aCompleterBouton4").appendChild(document.createElement("br"));
+
             }
         }
 
@@ -269,15 +290,14 @@
             <input id="bouton1" class="btn btn-default" value="Bouton 1 (fn :setBackgroundAndBoutonColor) " type="button" onclick="setBackgroundAndBoutonColor()"/>
         </li> <br/>
         <li>
-            <input id="bouton2" class="btn btn-default" value="Bouton 2 (fn: infoWorkaholics)" type="button" onclick="infoWorkaholics('http://www.omdbapi.com/?t=workaholics&y=&plot=short&r=json')"/>
+            <input id="bouton2" class="btn btn-default" value="Bouton 2 (fn: infoWorkaholics)" type="button" onclick="infoWorkaholics('fichiersPourAjax/calendar-short.xml','fichiersPourAjax/calendar-eventlist-workaholics.xsl','http://www.omdbapi.com/?t=workaholics&y=&plot=short&r=json')"/>
         </li>
-    <div id="aCompleter"> </div> <br/>
+    <div id="aCompleterBouton2"> </div> <br/>
         <li>
-            <input id="bouton4" class="btn btn-default" value="Bouton 4 (fn :afficheCalendrier) " type="button" onclick="afficheCalendrier()"/>
+            <input id="bouton4" class="btn btn-default" value="Bouton 4 (fn :afficheCalendrier) " type="button" onclick="afficheCalendrier('fichiersPourAjax/calendar-short.xml','fichiersPourAjax/calendar-eventlist.xsl')"/>
         </li><br/>
+    <div id="aCompleterBouton4"> </div>
     </ul>
-
-
 
     </p>
 </div>
