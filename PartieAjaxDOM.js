@@ -64,8 +64,16 @@ function createDivLabel(responseJson){
     countryLabel.setAttribute("class", "label label-default");
     countryLabel.innerHTML = responseJson.Country;
     var imdbRatingLabel = document.createElement("span");
-    imdbRatingLabel.setAttribute("class", "label label-default");
+    // un peu de fantaisie
+    if(responseJson.imdbRating >= 8){
+
+        imdbRatingLabel.setAttribute("class", "label label-success");
+    }
+    else {
+        imdbRatingLabel.setAttribute("class", "label label-warning");
+    }
     imdbRatingLabel.innerHTML = responseJson.imdbRating;
+
     var imdbVotesLabel = document.createElement("span");
     imdbVotesLabel.setAttribute("class", "label label-default");
     imdbVotesLabel.innerHTML = responseJson.imdbVotes;

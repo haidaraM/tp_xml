@@ -9,21 +9,22 @@
     <!-- Bootstrap -->
     <link href="fichiersPourAjax/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
-        .instruction {
-            font-style: italic;
-            color: #006600;
-        }
-
         .thumbnail-size {
             width: 96px;
             padding-right: 10px
         }
 
         .media-list li {
-            padding: 5px
+            padding: 5px;
+        }
+
+        /* survol d'un évenement */
+        .media-list:hover {
+            border-radius : 15px;
+            background-color: #eaf2ed;
         }
     </style>
-    <script src="PartieAjaxDOM.js">    </script>
+    <script src="PartieAjaxDOM.js"></script>
 </head>
 
 <body id="body">
@@ -31,24 +32,31 @@
     <h1> Partie Ajax par Yoam HAZOT et Mohamed HAIDARA - B3446 </h1>
 
     <h2>Travail réalisé</h2>
+
     <p>
     <ul id="liste_bouton">
         <li>
-            <input id="bouton1" class="btn btn-default" value="Bouton 1 (fn :setBackgroundAndBoutonColor) " type="button" onclick="setBackgroundAndBoutonColor()"/>
-        </li> <br/>
+            <input id="bouton1" class="btn btn-default" value="Bouton 1 (fn :setBackgroundAndBoutonColor) "
+                   type="button" onclick="setBackgroundAndBoutonColor()"/>
+        </li>
+        <br/>
         <li>
-            <input id="bouton2" class="btn btn-default" value="Bouton 2 (fn: infoWorkaholics)" type="button" onclick="infoWorkaholics('fichiersPourAjax/calendar-short.xml','fichiersPourAjax/calendar-eventlist-workaholics.xsl','http://www.omdbapi.com/?t=workaholics&y=&plot=short&r=json')"/>
+            <input id="bouton2" class="btn btn-default" value="Bouton 2 (fn: infoWorkaholics)" type="button"
+                   onclick="infoWorkaholics('fichiersPourAjax/calendar-short.xml','fichiersPourAjax/calendar-eventlist-workaholics.xsl','http://www.omdbapi.com/?t=workaholics&y=&plot=short&r=json')"/>
         </li>
     </ul>
 
-    <div id="aCompleterBouton2"> </div> <br/>
+    <div id="aCompleterBouton2"></div>
+    <br/>
 
     <ul id="liste_bouton2">
         <li>
-            <input id="bouton4" class="btn btn-default" value="Bouton 4 (fn :afficheCalendrier) " type="button" onclick="afficheCalendrier('fichiersPourAjax/calendar-short.xml','fichiersPourAjax/calendar-eventlist.xsl')"/>
-        </li><br/>
+            <input id="bouton4" class="btn btn-default" value="Bouton 4 (fn :afficheCalendrier) " type="button"
+                   onclick="afficheCalendrier('fichiersPourAjax/calendar-short.xml','fichiersPourAjax/calendar-eventlist.xsl')"/>
+        </li>
+        <br/>
     </ul>
-    <div id="aCompleterBouton4"> </div>
+    <div id="aCompleterBouton4"></div>
 
     <ul>
         <li>
