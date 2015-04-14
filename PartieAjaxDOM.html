@@ -30,7 +30,6 @@
         var clickBouton2 = false;
         var clickBouton3 = false;
         var clickBouton4 = false;
-
         //check if the first node is an element node
         function recupererPremierElementEnfant(n) {
             x = n.firstChild;
@@ -196,15 +195,35 @@
             if(clickBouton2 == false){
                 clickBouton2 = true;
 
-                // ajout d'un saut de ligne avant le bouton
-                document.getElementById("liste_bouton").insertBefore(document.createElement("br"),document.getElementById("aCompleterBouton2"));
+                //petit saut de ligne
+                document.getElementById("liste_bouton").appendChild(document.createElement("br"));
 
-                // affichage du bouton
-                document.getElementById("liste_bouton").insertBefore(li,document.getElementById("aCompleterBouton2"));
+                // ajout du bouton
+                document.getElementById("liste_bouton").appendChild(li);
 
                 // ajout du noeud recupéré dans le document transformé
                 document.getElementById("aCompleterBouton2").appendChild(elementAInserer);
             }
+        }
+
+        //crée une balise a avec une image dont l'url est passé en paramètre => renvoie le lien (la balise a)
+        function createImage(poster){
+
+            // creation du lien et mise en place des attributs
+            var lien = document.createElement("a");
+            lien.setAttribute("class","pull-left thumbnail-size");
+            lien.setAttribute("href",poster);
+
+            // creation de l'image et mise en place des attributs
+            var image = document.createElement("img");
+            image.setAttribute("class","media-object img-thumbnail responsive");
+            image.setAttribute("src",poster);
+
+            // ajout de l'image au lien
+            lien.appendChild(image);
+
+            return lien;
+
         }
 
         // recupere les informations à partir de l'API omdb
@@ -216,61 +235,53 @@
             // on recupere le noeud li
             var liListe = document.getElementById("aCompleterBouton2").getElementsByClassName("media")[0];
 
-            // creation du lien et mise en place des attributs
-            var lien = document.createElement("a");
-            lien.setAttribute("class","pull-left thumbnail-size");
-            lien.setAttribute("href",response.Poster);
-
-            // creation de l'image et mise en place des attributs
-            var image = document.createElement("img");
-            image.setAttribute("class","media-object img-thumbnail responsive");
-            image.setAttribute("src",response.Poster);
-            
-            // insertion du lien avant le media-body
-            liListe.insertBefore(lien,liListe.childNodes[0]);
-
             // Création de l'élément <div> correspondant aux caractéritiques du programme
             var moreInfos = createDivLabel(response);
 
             if(clickBouton3 == false){
                 clickBouton3 = true;
-                // ajout de l'image au lien
-                lien.appendChild(image);
-                // ajout dans le noeud
+                // création et ajout de l'image
+                var lien = createImage(response.Poster);
+
+                // insertion du lien avant le media-body
+                liListe.insertBefore(lien,liListe.childNodes[0]);
+
+                // ajout des labels dans le noeud
                 liListe.getElementsByClassName("media-body")[0].appendChild(moreInfos);
             }
 
         }
 
         //affiche le calendrier complet en utilisant une feuille de style
-        function afficheCalendrier(xmlDocumentUrl,xslDocumentUrl,urlJson){
+        function afficheCalendrier(xmlDocumentUrl,xslDocumentUrl){
             // creation du bouton
             var bouton = document.createElement("button");
             // creation du texte du bouton
             var text = document.createTextNode("Bouton 5 (fn : MajAfficheCalendrier)");
-
-            // attributs du bouton : fonction à declencher et css
-            var parameters = "MajAfficheCalendrier(\"" + urlJson +"\")";
-            bouton.setAttribute("onclick",parameters);
-            bouton.setAttribute("class","btn btn-default");
-            bouton.appendChild(text);
-            var li = document.createElement("li");
-            li.appendChild(bouton);
 
             // creation et récuperation du nouveau document transformé
             var xmlDocumentTransformed = xmlTransformByXsl(xmlDocumentUrl, xslDocumentUrl);
             // récuperation de la liste des elements
             var listeElementsAInserer = xmlDocumentTransformed.getElementsByTagName("ul");
 
+            // attributs du bouton : fonction à declencher et css
+            bouton.setAttribute("onclick","MajAfficheCalendrier()" );
+            bouton.setAttribute("class","btn btn-default");
+            bouton.appendChild(text);
+            var li = document.createElement("li");
+            li.appendChild(bouton);
+
             if(clickBouton4 == false)
             {
                 // affichage du bouton
-                document.getElementById("liste_bouton").insertBefore(li,document.getElementById("aCompleterBouton4"));
+                document.getElementById("liste_bouton2").appendChild(li);
+
                 clickBouton4 = true;
                 // parcours et affichage de la liste des éléments
-                for(i=0; i<listeElementsAInserer.length;i++){
+                for(var j=0; j<listeElementsAInserer.length;j++){
                     // ajout du noeud recupéré dans le document transformé
-                    document.getElementById("aCompleterBouton4").appendChild(listeElementsAInserer[i]);
+                    document.getElementById("aCompleterBouton4").appendChild(listeElementsAInserer[j]);
+                    j--; // sans ça je ne sais pas pourquoi ça ne marche pas, le javascript est trop bizard
                 }
                 //petit saut de ligne
                 document.getElementById("aCompleterBouton4").appendChild(document.createElement("br"));
@@ -279,7 +290,32 @@
         }
 
         // met à jour le calendrier complet en ajoutant des images et autres infos
-        function MajAfficheCalendrier(urlJson){
+        function MajAfficheCalendrier(){
+
+            // récuperation de la liste des elements
+            var listeElementsAInserer = document.getElementById("aCompleterBouton4").getElementsByClassName("media");
+
+            for(var k=0; k<listeElementsAInserer.length;k++){
+                // on recupere le titre de la série courante
+                var titre = listeElementsAInserer[k].getElementsByClassName("media-heading")[0];
+                //on cree l'url json avec le titre de la série
+                var urlJson = "http://www.omdbapi.com/?t="+titre.innerHTML+"&y=&plot=short&r=json";
+                // Chargement du fichier JSON
+                var response = getHttpJSON(urlJson);
+
+                // création et ajout de l'image
+                var lien = createImage(response.Poster);
+
+                // insertion du lien avant le media-body
+                listeElementsAInserer[k].insertBefore(lien,listeElementsAInserer[k].childNodes[0]);
+
+                var moreInfo = createDivLabel(response);
+                // ajout des labels dans le noeud
+                listeElementsAInserer[k].getElementsByClassName("media-body")[0].appendChild(moreInfo);
+            }
+        }
+
+        function bonus(){
 
         }
 
@@ -291,7 +327,6 @@
     <h1> Partie Ajax par Yoam HAZOT et Mohamed HAIDARA - B3446 </h1>
 
     <h2>Travail réalisé</h2>
-
     <p>
     <ul id="liste_bouton">
         <li>
@@ -300,13 +335,22 @@
         <li>
             <input id="bouton2" class="btn btn-default" value="Bouton 2 (fn: infoWorkaholics)" type="button" onclick="infoWorkaholics('fichiersPourAjax/calendar-short.xml','fichiersPourAjax/calendar-eventlist-workaholics.xsl','http://www.omdbapi.com/?t=workaholics&y=&plot=short&r=json')"/>
         </li>
-    <div id="aCompleterBouton2"> </div> <br/>
-        <li>
-            <input id="bouton4" class="btn btn-default" value="Bouton 4 (fn :afficheCalendrier) " type="button" onclick="afficheCalendrier('fichiersPourAjax/calendar-short.xml','fichiersPourAjax/calendar-eventlist.xsl')"/>
-        </li><br/>
-    <div id="aCompleterBouton4"> </div>
     </ul>
 
+    <div id="aCompleterBouton2"> </div> <br/>
+
+    <ul id="liste_bouton2">
+        <li>
+            <input id="bouton4" class="btn btn-default" value="Bouton 4 (fn :afficheCalendrier) " type="button" onclick="afficheCalendrier('fichiersPourAjax/calendar-full.xml','fichiersPourAjax/calendar-eventlist.xsl')"/>
+        </li><br/>
+    </ul>
+    <div id="aCompleterBouton4"> </div>
+
+    <ul>
+        <li>
+            <input id="bouton6" value="Bouton Bonus (fn : bonus)" type="button" class="btn btn-success">
+        </li>
+    </ul>
     </p>
 </div>
 </body>
