@@ -310,5 +310,6 @@ function MajAfficheCalendrier(){
 }
 
 function bonus(){
-
+    var lien = "https://api.themoviedb.org/3/movie/550?api_key=1b283c3d0510278c26756184c950e78f";
+    var lien2 ="http://api.themoviedb.org/3/find/tt2193021?api_key=1b283c3d0510278c26756184c950e78f&external_source=imdb_id";
 }
