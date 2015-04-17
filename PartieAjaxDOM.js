@@ -195,7 +195,7 @@ function infoWorkaholics(xmlDocumentUrl,xslDocumentUrl,urlJson){
     }
 }
 
-//crée une balise <a> avec une image dont l'url est passé en paramètre => renvoie le lien (la balise a)
+//crée une balise <a> dans lequel il y'a une image dont l'url est passé en paramètre => renvoie le lien (la balise a)
 function createImage(poster){
 
     // creation du lien et mise en place des attributs
@@ -232,7 +232,7 @@ function MajInfoWorkaholics(urlJSOn){
         // création et ajout de l'image
         var lien = createImage(response.Poster);
 
-        // insertion du lien avant le media-body
+        // insertion de l'image avant le media-body qui est le premier fils du noeud "media"
         liListe.insertBefore(lien,liListe.childNodes[0]);
 
         // ajout des labels dans le noeud
@@ -286,21 +286,24 @@ function MajAfficheCalendrier(){
     var listeElementsAInserer = document.getElementById("aCompleterBouton4").getElementsByClassName("media");
 
     for(var k=0; k<listeElementsAInserer.length;k++){
-        // on recupere le titre de la série courante pour interoger l'api
+        // on recupère le titre de la série courante pour interoger l'api
         var titre = listeElementsAInserer[k].getElementsByClassName("media-heading")[0];
+
         //on cree l'url json avec le titre de la série
         var urlJson = "http://www.omdbapi.com/?t="+titre.innerHTML+"&y=&plot=short&r=json";
+
         // Chargement du fichier JSON
         var response = getHttpJSON(urlJson);
 
         // création de l'image
-        var lien = createImage(response.Poster);
+        var image = createImage(response.Poster);
 
-        // insertion de l'image avant le media-body
-        listeElementsAInserer[k].insertBefore(lien,listeElementsAInserer[k].childNodes[0]);
+        // insertion de l'image avant le media-body qui est le premier fils du noeud "media
+        listeElementsAInserer[k].insertBefore(image,listeElementsAInserer[k].childNodes[0]);
 
         // création des informations complémentaires
         var moreInfo = createDivLabel(response);
+
         // ajout des labels dans le noeud
         listeElementsAInserer[k].getElementsByClassName("media-body")[0].appendChild(moreInfo);
     }
