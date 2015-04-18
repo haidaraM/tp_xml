@@ -7,7 +7,7 @@ Partie 1 :
 
 Etape 2 : 
 
-1.1)/child::texte/child::en-tete/child::info_traitements/child::mise_en_forme_par/child::unCreateur, FA : /texte/en-tete/info_traitements/mise_en_forme_par/unCreateur
+1.1) /child::texte/child::en-tete/child::info_traitements/child::mise_en_forme_par/child::unCreateur, FA : /texte/en-tete/info_traitements/mise_en_forme_par/unCreateur
 1.2) /texte/corps/paragraphe[@type = "dialogue"]
 1.3) /texte/corps/paragraphe/phrase[@langue = "francais"]
 1.4) /texte/corps/paragraphe/phrase[2] OU //phrase[2]

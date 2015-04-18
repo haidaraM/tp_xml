@@ -28,7 +28,6 @@
                     </div>
                 </div>
             </li>
-
         </ul>
     </xsl:template>
 </xsl:stylesheet>

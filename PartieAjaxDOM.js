@@ -310,6 +310,11 @@ function MajAfficheCalendrier(){
 }
 
 function bonus(){
-    var lien = "https://api.themoviedb.org/3/movie/550?api_key=1b283c3d0510278c26756184c950e78f";
-    var lien2 ="http://api.themoviedb.org/3/find/tt2193021?api_key=1b283c3d0510278c26756184c950e78f&external_source=imdb_id";
+
+    var key = "?api_key=1b283c3d0510278c26756184c950e78f";
+    var config = "http://api.themoviedb.org/3/configuration?api_key=1b283c3d0510278c26756184c950e78f";
+    var movieLinkByTmdbId = "https://api.themoviedb.org/3/movie/550?api_key=1b283c3d0510278c26756184c950e78f";
+
+    var findlink ="http://api.themoviedb.org/3/find/tt2193021?external_source=imdb_id&api_key=1b283c3d0510278c26756184c950e78f";
+    var episodeImage = "https://api.themoviedb.org/3/tv/198266?api_key=1b283c3d0510278c26756184c950e78f";
 }
