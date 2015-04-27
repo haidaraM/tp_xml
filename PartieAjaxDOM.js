@@ -157,49 +157,52 @@ function getHttpXML(xmlDocumentUrl) {
 // affiche les informations des évènements dont le titre contient le mot "Workaholics"
 function infoWorkaholics(xmlDocumentUrl,xslDocumentUrl,urlJson){
 
-    // creation du bouton
+    // creation du bouton 3
     var bouton = document.createElement("button");
-    // creation du texte du bouton
+    // creation du texte du bouton 3
     var text = document.createTextNode("Bouton 3 (fn : MajInfoWorkaholics)");
 
-    // attributs du bouton : fonction à declencher et css
+    // attributs du bouton 3 : fonction à declencher et css
     var parameters = "MajInfoWorkaholics(\"" + urlJson +"\")";
     bouton.setAttribute("onclick",parameters);
     bouton.setAttribute("class","btn btn-default");
     bouton.setAttribute("id","bouton3");
 
-    // ajout du texte au bouton
+    // ajout du texte au bouton 3
     bouton.appendChild(text);
     var li = document.createElement("li");
-    // ajout du bouton au li
+    // ajout du bouton 3 à la liste des boutons
     li.appendChild(bouton);
 
     // Création du document XML transformé par le XSL
     var newXmlDocument = xmlTransformByXsl(xmlDocumentUrl,xslDocumentUrl);
 
     // recuperation du noeud conserné dans le nouveau document
+    // on prend le premier élément car normalement il n'y aura qu'un seul correspondant à Workaholics
+    // et getElementsByTagName renvoie un
     var elementAInserer = newXmlDocument.getElementsByTagName("ul")[0];
 
-    // pour éviter plusieurs boutons et informations concernant la série
+    // pour éviter plusieurs fois les mêmes boutons et informations concernant la série
     if(clickBouton2 == false){
         clickBouton2 = true;
 
         //petit saut de ligne
         document.getElementById("liste_bouton").appendChild(document.createElement("br"));
 
-        // ajout du bouton
+        // ajout du bouton 3
         document.getElementById("liste_bouton").appendChild(li);
 
-        // ajout du noeud recupéré dans le document transformé
+        // ajout du noeud recupéré à partir du document transformé
         document.getElementById("aCompleterBouton2").appendChild(elementAInserer);
     }
 }
 
-//crée une balise <a> dans lequel il y'a une image dont l'url est passé en paramètre => renvoie le lien (la balise a)
+//crée un lien(une balise <a>) dans lequel il y'a une image dont l'url est passé en paramètre => renvoie le lien
 function createImage(poster){
 
     // creation du lien et mise en place des attributs
     var lien = document.createElement("a");
+    // boostrap
     lien.setAttribute("class","pull-left thumbnail-size");
     lien.setAttribute("href",poster);
 
@@ -216,12 +219,13 @@ function createImage(poster){
 }
 
 // recupere les informations à partir de l'API omdb pour la série workaholics
+// Fonction appelée par le bouton 3
 function MajInfoWorkaholics(urlJSOn){
 
     // Chargement du fichier JSON
     var response = getHttpJSON(urlJSOn);
 
-    // on recupere le noeud li
+    // on recupere le noeud li de la media-list qui a été insérée par le bouton 2
     var liListe = document.getElementById("aCompleterBouton2").getElementsByClassName("media")[0];
 
     // Création de l'élément <div> correspondant aux caractéritiques du programme
@@ -242,13 +246,14 @@ function MajInfoWorkaholics(urlJSOn){
 }
 
 //affiche le calendrier complet en utilisant une feuille de style xsl
+//fonction du bouton 4
 function afficheCalendrier(xmlDocumentUrl,xslDocumentUrl){
     // creation du bouton
     var bouton = document.createElement("button");
     // creation du texte du bouton
     var text = document.createTextNode("Bouton 5 (fn : MajAfficheCalendrier)");
 
-    // creation et récuperation du nouveau document transformé
+    // creation et récuperation du nouveau document transformé par la feuile de style xsl
     var xmlDocumentTransformed = xmlTransformByXsl(xmlDocumentUrl, xslDocumentUrl);
     // récuperation de la liste des elements
     var listeElementsAInserer = xmlDocumentTransformed.getElementsByTagName("ul");
@@ -263,10 +268,10 @@ function afficheCalendrier(xmlDocumentUrl,xslDocumentUrl){
 
     if(clickBouton4 == false)
     {
+        clickBouton4 = true;
         // affichage du bouton
         document.getElementById("liste_bouton2").appendChild(li);
 
-        clickBouton4 = true;
         // parcours et affichage de la liste des éléments
         for(var j=0; j<listeElementsAInserer.length;j++){
             // ajout du noeud recupéré dans le document transformé
