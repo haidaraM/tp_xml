@@ -25,12 +25,198 @@
                 <pre><span class="p">//</span><span class="nt">unCreateur</span></pre>
             </div>
         </li>
-        <li> Les paragraphes de dialogue</li>
-        <li> Les phrases en français </li>
-        <li> La deuxième phrase de chaque paragraphe</li>
-        <li> La dixième phrase du texte</li>
-        <li> Les phrases contenant le mot "mouton"</li>
-        <li> Listez les modalités des phrases du texte (sans doublons)</li>
+        <li> Les paragraphes de dialogue
+            <div class="highlight">
+                <pre><span class="p">//</span><span class="nt">paragraphe</span><span class="p">[</span><span
+                        class="na">@type</span> <span class="err">=</span> <span
+                        class="s2">&quot;dialogue&quot;</span><span class="p">]</span></pre>
+            </div>
+        </li>
+        <li> Les phrases en français
+            <div class="highlight">
+                <pre><span class="p">//</span><span class="nt">phrase</span><span class="p">[</span><span class="na">@langue</span> <span
+                        class="err">=</span> <span class="s2">&quot;francais&quot;</span><span class="p">]</span></pre>
+            </div>
+        </li>
+        <li> La deuxième phrase de chaque paragraphe
+            <div class="highlight"><pre><span class="p">//</span><span class="nt">phrase</span><span
+                    class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre>
+            </div>
+        </li>
+        <li> La dixième phrase du texte
+            <div class="highlight"><pre><span class="p">(//</span><span class="nt">phrase</span><span
+                    class="p">)[</span><span class="mi">10</span><span class="p">]</span> <span class="c">(: ou encore :)</span> <span
+                    class="p">/</span><span class="k">descendant</span><span class="p">::</span><span
+                    class="nt">phrase</span><span class="p">[</span><span class="mi">10</span><span
+                    class="p">]</span></pre>
+            </div>
+        </li>
+        <li> Les phrases contenant le mot "mouton"
+            <div class="highlight"><pre><span class="p">//</span><span class="nt">phrase</span><span
+                    class="p">[</span><span class="nf">contains</span><span class="p">(.,</span> <span class="s2">&quot;mouton&quot;</span><span
+                    class="p">)]</span>
+</pre>
+            </div>
+        </li>
+        <li> Listez les modalités des phrases du texte (sans doublons)
+            <div class="highlight"><pre><span class="nf">distinct-values</span><span class="p">(//</span><span
+                    class="nt">phrase</span><span class="p">/</span><span class="na">@modalite</span><span
+                    class="p">)</span> <span class="c">(: mieux :)</span> <span class="p">//</span><span class="nt">phrase</span><span
+                    class="p">[</span><span class="nf">not</span> <span class="p">(</span><span
+                    class="na">@modalite</span> <span class="err">=</span> <span class="k">preceding</span><span
+                    class="p">::</span><span class="nt">phrase</span><span class="p">/</span><span
+                    class="na">@modalite</span> <span class="p">)]/</span><span class="na">@modalite</span>
+</pre>
+            </div>
+        </li>
+    </ol>
+
+    <h3>Etape 3 : Mise en forme du corpus Le Petit Prince [XSLT]</h3>
+
+    <h2>Deuxième partie : XQuery</h2>
+    <ol>
+        <li>Retournez les phrases en français triés en ordre alphabétique
+            <div class="highlight"><pre><span class="nt">&lt;phrases&gt;</span><span class="p">{</span>
+    <span class="k">for</span> <span class="nv">$p</span> <span class="ow">in</span> <span class="p">//</span><span
+                        class="nt">phrase</span><span class="p">[</span><span class="na">@langue</span><span
+                        class="err">=</span><span class="s2">&quot;francais&quot;</span><span class="p">]</span>
+    <span class="k">order by</span> <span class="nv">$p</span>
+    <span class="k">return</span> <span class="nv">$p</span>
+<span class="p">}</span><span class="nt">&lt;/phrases&gt;</span>
+</pre>
+            </div>
+        </li>
+        <li>Retournez les phrases françaises contenant le mot "mouton".
+            <div class="highlight"><pre><span class="nt">&lt;phrases&gt;</span><span class="p">{</span>
+    <span class="k">for</span> <span class="nv">$p</span> <span class="ow">in</span> <span class="p">//</span><span
+                        class="nt">phrase</span><span class="p">[</span><span class="nf">contains</span><span class="p">(.,</span> <span
+                        class="s2">&quot;mouton&quot;</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="nv">$p</span>
+<span class="p">}</span><span class="nt">&lt;/phrases&gt;</span>
+
+<span class="c">(: ou encore :)</span>
+<span class="o">&lt;</span><span class="nt">phrases</span><span class="o">&gt;</span><span class="p">{</span>
+    <span class="k">for</span> <span class="nv">$p</span> <span class="ow">in</span> <span class="p">//</span><span
+                        class="nt">phrase</span>
+    <span class="k">where</span> <span class="nv">$p</span><span class="p">[</span><span class="nf">contains</span><span
+                        class="p">(.,</span> <span class="s2">&quot;mouton&quot;</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="nv">$p</span>
+<span class="p">}</span><span class="o">&lt;</span><span class="p">/</span><span class="nt">phrases</span><span
+                        class="o">&gt;</span>
+</pre>
+            </div>
+        </li>
+        <li>Pour chaque paragraphe: donnez son type, le nombre de phrases qui la compose, les modalités de ces phrases
+            (sans répétition) ainsi que les locuteurs. (allez-y étape par étape). Astuce : pour avoir les valeurs
+            uniques des modalités, utilisez la fonction distinct-values.
+            <div class="highlight"><pre><span class="nt">&lt;paragraphes&gt;</span><span class="p">{</span>
+    <span class="k">for</span> <span class="nv">$p</span> <span class="ow">in</span> <span class="p">//</span><span
+                        class="nt">paragraphe</span>
+    <span class="k">return</span> <span class="nt">&lt;paragraphe</span> <span class="nt">Type</span><span
+                        class="o">=</span><span class="p">&quot;{</span><span class="nf">data</span><span
+                        class="p">(</span><span class="nv">$p</span><span class="p">/</span><span
+                        class="na">@type</span><span class="p">)}&quot;</span> <span class="nt">phrases</span><span
+                        class="o">=</span><span class="p">&quot;{</span><span class="nf">count</span><span
+                        class="p">(</span><span class="nv">$p</span><span class="p">/</span><span
+                        class="nt">phrase</span><span class="p">)}&quot;</span><span class="nt">&gt;</span><span
+                        class="l"></span>
+<span class="l">        </span><span class="p">{</span>
+            <span class="k">for</span> <span class="nv">$m</span> <span class="ow">in</span> <span class="nf">distinct-values</span><span
+                        class="p">(</span><span class="nv">$p</span><span class="p">/</span><span
+                        class="nt">phrase</span><span class="p">/</span><span class="na">@modalite</span><span
+                        class="p">)</span>
+            <span class="k">return</span> <span class="nt">&lt;modalite&gt;</span><span class="l"> </span><span
+                        class="p">{</span><span class="nf">data</span><span class="p">(</span><span class="nv">$m</span><span
+                        class="p">)}</span><span class="l"> </span><span class="nt">&lt;/modalite&gt;</span>
+        <span class="p">}</span><span class="l"></span>
+
+<span class="l">        </span><span class="p">{</span>
+            <span class="k">for</span> <span class="nv">$l</span> <span class="ow">in</span> <span class="nf">distinct-values</span><span
+                        class="p">(</span><span class="nv">$p</span><span class="p">/</span><span
+                        class="nt">phrase</span><span class="p">/</span><span class="na">@locuteur</span><span
+                        class="p">)</span>
+            <span class="k">return</span> <span class="nt">&lt;locteur&gt;</span><span class="l"> </span><span
+                        class="p">{</span><span class="nf">data</span><span class="p">(</span><span class="nv">$l</span><span
+                        class="p">)}</span><span class="l"> </span><span class="nt">&lt;/locteur&gt;</span>
+        <span class="p">}</span><span class="l"></span>
+<span class="l">    </span><span class="nt">&lt;/paragraphe&gt;</span>
+
+<span class="p">}</span><span class="l"></span>
+<span class="nt">&lt;/paragraphes&gt;</span>
+</pre>
+            </div>
+        </li>
+        <li>Afficher la version française seulement (respectez la structure en paragraphes).
+            <div class="highlight"><pre><span class="nt">&lt;version_francaise&gt;</span><span class="p">{</span>
+    <span class="k">for</span> <span class="nv">$p</span> <span class="ow">in</span> <span class="p">//</span><span
+                        class="nt">paragraphe</span>
+    <span class="k">return</span> <span class="nt">&lt;paragraphe&gt;</span><span class="l"> </span><span
+                        class="p">{</span><span class="nf">data</span><span class="p">(</span><span class="nv">$p</span><span
+                        class="p">/</span><span class="nt">phrase</span><span class="p">[</span><span
+                        class="na">@langue</span><span class="err">=</span><span
+                        class="s2">&quot;francais&quot;</span><span class="p">])}</span><span class="l"> </span><span
+                        class="nt">&lt;/paragraphe&gt;</span>
+<span class="p">}</span><span class="l"></span>
+<span class="nt">&lt;/version_francaise&gt;</span>
+</pre>
+            </div>
+        </li>
+        <li>Afficher uniquement les deuxièmes phrases des paragraphes de la version française.
+            <div class="highlight"><pre><span class="nt">&lt;version_francaise&gt;</span><span class="p">{</span>
+    <span class="k">for</span> <span class="nv">$p</span> <span class="ow">in</span> <span class="p">//</span><span
+                        class="nt">paragraphe</span>
+    <span class="k">return</span> <span class="nt">&lt;paragraphe&gt;</span><span class="l"> </span><span
+                        class="p">{</span><span class="nf">data</span><span class="p">(</span><span class="nv">$p</span><span
+                        class="p">/</span><span class="nt">phrase</span><span class="p">[</span><span
+                        class="na">@langue</span><span class="err">=</span><span class="s2">&quot;francais&quot;</span> <span
+                        class="ow">and</span> <span class="nf">position</span><span class="p">()</span><span
+                        class="o">=</span><span class="mi">2</span><span class="p">])}</span><span
+                        class="l"> </span><span class="nt">&lt;/paragraphe&gt;</span>
+<span class="p">}</span><span class="l"></span>
+<span class="nt">&lt;/version_francaise&gt;</span>
+</pre>
+            </div>
+        </li>
+        <li>Afficher seulement les dialogues en français du narrateur.
+            <div class="highlight"><pre><span class="nt">&lt;dialogue&gt;</span><span class="p">{</span>
+    <span class="k">for</span> <span class="nv">$p</span> <span class="ow">in</span> <span class="p">//</span><span
+                        class="nt">paragraphe</span><span class="p">[</span><span class="na">@type</span><span
+                        class="err">=</span><span class="s2">&quot;dialogue&quot;</span><span class="p">]/</span><span
+                        class="nt">phrase</span><span class="p">[</span><span class="na">@langue</span><span
+                        class="err">=</span><span class="s2">&quot;francais&quot;</span> <span
+                        class="ow">and</span> <span class="na">@locuteur</span><span class="err">=</span><span
+                        class="s2">&quot;Narrateur&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nt">&lt;phrase&gt;</span><span class="p">{</span><span
+                        class="nf">data</span><span class="p">(</span><span class="nv">$p</span><span
+                        class="p">)}</span><span class="nt">&lt;/phrase&gt;</span>
+<span class="p">}</span><span class="l"></span>
+<span class="nt">&lt;/dialogue&gt;</span>
+</pre>
+            </div>
+        </li>
+        <li>Afficher toutes les phrases du Petit Prince en français qui comporte le mot "mouton" ainsi que le nombre de
+            ces phrases.
+            <div class="highlight"><pre><span class="k">let</span> <span class="nv">$c</span> <span class="o">:=</span> <span
+                    class="p">//</span><span class="nt">paragraphe</span><span class="p">/</span><span
+                    class="nt">phrase</span><span class="p">[</span><span class="nf">contains</span><span
+                    class="p">(.,</span><span class="s2">&quot;mouton&quot;</span><span class="p">)</span> <span
+                    class="ow">and</span> <span class="na">@locuteur</span><span class="err">=</span><span class="s2">&quot;LePetitPrince&quot;</span><span
+                    class="p">]</span>
+<span class="k">return</span>
+    <span class="nt">&lt;paragraphe</span> <span class="nt">nombre_phrases</span><span class="o">=</span><span
+                        class="p">&quot;{</span><span class="nf">count</span><span class="p">(</span><span
+                        class="nv">$c</span><span class="p">)}&quot;</span><span class="nt">&gt;</span><span
+                        class="l"></span>
+<span class="l">        </span><span class="p">{</span>
+            <span class="k">for</span> <span class="nv">$p</span> <span class="ow">in</span> <span class="nv">$c</span>
+            <span class="k">return</span>  <span class="nt">&lt;phrase&gt;</span><span class="l"> </span><span
+                        class="p">{</span><span class="nf">data</span><span class="p">(</span><span class="nv">$p</span><span
+                        class="p">)}</span><span class="l"> </span><span class="nt">&lt;/phrase&gt;</span>
+        <span class="p">}</span><span class="nt">&lt;/paragraphe&gt;</span>
+</pre>
+            </div>
+        </li>
     </ol>
 </div>
 </body>

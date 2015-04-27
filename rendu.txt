@@ -13,7 +13,7 @@ Etape 2 :
 1.4) /texte/corps/paragraphe/phrase[2] OU //phrase[2]
 1.5) on prend la 10ème de toutes les phrases : (//phrase)[10] ou encore /descendant::phrase[10]
 1.6) //phrase[contains(., "mouton")]
-1.7) distinct-values(//phrase/@modalite) OU (mieux ) //phrase[not (@modalite = preceding::phrase/@modalite )]/@modalite
+1.7) distinct-values(//phrase/@modalite) (: mieux :) //phrase[not (@modalite = preceding::phrase/@modalite )]/@modalite
 
 //phrase[not (@modalite = preceding::phrase/@modalite )] : récupére les premières phrases ayant un attribut qui n'est pas encore enregistré
 pour obtenir le nom des modalités : //phrase[not (@modalite = preceding::phrase/@modalite )]/@modalite
@@ -35,6 +35,7 @@ for $p in //phrase[contains(.,"mouton")]
 return $p
 }</phrases> 
 
+(: ou encore :)
 <phrases>{
 for $p in //phrase
 where $p[contains(.,"mouton")]
@@ -55,7 +56,6 @@ return <paragraphe Type="{data($p/@type)}" phrases="{count($p/phrase)}">
   return <locteur> {data($l)} </locteur>
 }
  </paragraphe>
-
 }
 </paragraphes> 
 
