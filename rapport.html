@@ -16,7 +16,25 @@
 
     <h3> Etape 1 : Mise à jour de l'instance [XML, DTD]</h3>
 
-    <p> L'élément <strong>email</strong> était manquant.</p>
+    <ul>
+        <li>L'élément <strong>email</strong> était manquant.</li>
+        <li> Remplacement du contenu
+            <div class="highlight"><pre><span class="nt">&lt;info_traitements&gt;</span>
+    <span class="nt">&lt;but&gt;</span>Traitement d&#39;un texte franco/hongrois avec XPath / XSLT / XQuery<span
+                        class="nt">&lt;/but&gt;</span>
+    <span class="nt">&lt;mise_en_forme_par&gt;</span>
+        <span class="nt">&lt;unCreateur&gt;</span> Mohamed Haidara<span class="nt">&lt;/unCreateur&gt;</span>
+        <span class="nt">&lt;unCreateur&gt;</span>Yoam Hazot<span class="nt">&lt;/unCreateur&gt;</span>
+        <span class="nt">&lt;NoBinome&gt;</span>B3446<span class="nt">&lt;/NoBinome&gt;</span>
+    <span class="nt">&lt;/mise_en_forme_par&gt;</span>
+    <span class="nt">&lt;email&gt;</span>yoam.hazot@insa-lyon.fr<span class="nt">&lt;/email&gt;</span>
+    <span class="nt">&lt;date&gt;</span>10/04/2015<span class="nt">&lt;/date&gt;</span>
+<span class="nt">&lt;/info_traitements&gt;</span>
+</pre>
+            </div>
+        </li>
+    </ul>
+
 
     <h3>Etape 2 : Exploration de l'instance [XPath]</h3>
     <ol>
@@ -73,7 +91,10 @@
     </ol>
 
     <h3>Etape 3 : Mise en forme du corpus Le Petit Prince [XSLT]</h3>
+
     <p> Voir le fichier <a href="petit_prince_3IF.xsl">petit_prince_3IF.xsl</a></p>
+    <p> Voir le fichier <a href="petit_prince_3IF.xml">petit_prince_3IF.xml</a> (la feuille est appliquée) </p>
+
     <h2>Deuxième partie : XQuery</h2>
     <ol>
         <li>Retournez les phrases en français triés en ordre alphabétique
@@ -220,10 +241,17 @@
     </ol>
 
     <h2>Troisième partie : DOM et ajax</h2>
+
     <p>Voir la page <a href="PartieAjaxDOM.html">PartieAjaxDOM.html</a></p>
+
     <p>Fichier javascript <a href="PartieAjaxDOM.js">PartieAjaxDOM.js</a></p>
-    <p> Feuilles de style: <a href="fichiersPourAjax/calendar-eventlist-workaholics.xsl">calendar-eventlist-workaholics.xsl</a> -
-     <a href="fichiersPourAjax/calendar-eventlist.xsl">calendar-eventlist.xsl</a></p>
+
+    <p> Feuilles de style: <a href="fichiersPourAjax/calendar-eventlist-workaholics.xsl">calendar-eventlist-workaholics.xsl</a>
+        -
+        <a href="fichiersPourAjax/calendar-eventlist.xsl">calendar-eventlist.xsl</a></p>
+    <br/>
+    <br/>
+    <br/>
 </div>
 </body>
 </html>
