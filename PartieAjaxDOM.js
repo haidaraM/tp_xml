@@ -122,7 +122,7 @@ function getHttpJSON(jsonDocumentUrl) {
         new ActiveXObject('Microsoft.XMLHTTP');
 
     if (httpAjax.overrideMimeType) {
-        httpAjax.overrideMimeType('text/xml');
+        httpAjax.overrideMimeType('application/json');
     }
 
     // chargement du fichier JSON à l'aide de XMLHttpRequest synchrone (le 3° paramètre est défini à false)
@@ -174,7 +174,7 @@ function infoWorkaholics(xmlDocumentUrl,xslDocumentUrl,urlJson){
     // ajout du bouton 3 à la liste des boutons
     li.appendChild(bouton);
 
-    // Création du document XML transformé par le XSL
+    // Création du document XML transformé par le XSL ("calendar-eventlist-workaholics.xsl" avec "calendar-short.xml")
     var newXmlDocument = xmlTransformByXsl(xmlDocumentUrl,xslDocumentUrl);
 
     // recuperation du noeud conserné dans le nouveau document
@@ -312,14 +312,4 @@ function MajAfficheCalendrier(){
         // ajout des labels dans le noeud
         listeElementsAInserer[k].getElementsByClassName("media-body")[0].appendChild(moreInfo);
     }
-}
-
-function bonus(){
-
-    var key = "?api_key=1b283c3d0510278c26756184c950e78f";
-    var config = "http://api.themoviedb.org/3/configuration?api_key=1b283c3d0510278c26756184c950e78f";
-    var movieLinkByTmdbId = "https://api.themoviedb.org/3/movie/550?api_key=1b283c3d0510278c26756184c950e78f";
-
-    var findlink ="http://api.themoviedb.org/3/find/tt2193021?external_source=imdb_id&api_key=1b283c3d0510278c26756184c950e78f";
-    var episodeImage = "https://api.themoviedb.org/3/tv/198266?api_key=1b283c3d0510278c26756184c950e78f";
 }
