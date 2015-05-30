@@ -1,391 +1,474 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-  
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-  <title>TP 3IF XPath, XSLT et XQuery</title>
-  <meta name="author" content="Elöd EGYED-ZSIGMOND">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
 
-  
-  
-  <style type="text/css">
-<!--
-#main {
-  position: relative;
-  z-index: 0;
-  width: 90%;
-  left: 5%;
-  top: 10px;
-  font-family: Arial,Helvetica,sans-serif;
-}
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <title>TP 3IF XPath, XSLT et XQuery</title>
+    <meta name="author" content="Elöd EGYED-ZSIGMOND">
 
-#body {
-  margin: 0em 0% 0em 1%;
-  font-family: Arial,Helvetica,sans-serif;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  font-size: 90%;
-  line-height: normal;
-  font-size-adjust: none;
-  font-stretch: normal;
-}
- 
- #main p.xml {
-  border: 1px solid navy;
-  font-family: "Courier New",Courier,monospace;
-  background-color: #f0ffff;
-  color: black;
-  text-indent: 0em;
-}
 
-#main .instruction {
-	font-style: italic;
-	color: #006600;
-}
-.Style1 {color: #FF0000}
+    <style type="text/css">
+        <!--
+        #main {
+            position: relative;
+            z-index: 0;
+            width: 90%;
+            left: 5%;
+            top: 10px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
--->
-  </style>
-</head><body>
+        #body {
+            margin: 0em 0% 0em 1%;
+            font-family: Arial, Helvetica, sans-serif;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: normal;
+            font-size: 90%;
+            line-height: normal;
+            font-size-adjust: none;
+            font-stretch: normal;
+        }
+
+        #main p.xml {
+            border: 1px solid navy;
+            font-family: "Courier New", Courier, monospace;
+            background-color: #f0ffff;
+            color: black;
+            text-indent: 0em;
+        }
+
+        #main .instruction {
+            font-style: italic;
+            color: #006600;
+        }
+
+        .Style1 {
+            color: #FF0000
+        }
+
+        -->
+    </style>
+</head>
+<body>
 <div id="main">
-<h1>TP 3IF XML, XSL, XQuery, DOM 2014-2015</h1>
-<h2>Introduction</h2>
-<p>Lisez attentivement et suivez les consignes!</p>
-  <p>Le but de ce TP est de vous initier &agrave; la manipulation des
-    documents XML avec des outils d&eacute;di&eacute;s et dans le contexte d'un navigateur web. Vous allez pour cela &eacute;tudier, valider, modifier et
-    interroger un fichier XML. Pour la premi&egrave;re partie du TP, vous allez utilisez l'outil EditX <span class="instruction">(<code></code>\\servif-home\fic_eleves\Espace Pedagogique\3IF\Systeme d'Information\Bases de Donnees semi-structurees\outils\editix-free-2010-raw\bin)</span>, pour la deuxi&egrave;me partie l'outil BaseX, pour la troisi&egrave;me partie, le navigateur Firefox et l'extension FireBug. </p>
-  <p class="instruction"> Un site tr&egrave;s utile pour le TP: <a href="http://www.w3schools.com/default.asp" onclick="window.open(this.href); return false;">W3Schools</a> (r&eacute;f&eacute;rence et tutoriels sur XML, DTD/Schema, XSL, XQuery...)</p>
-  <p>Vous allez cr&eacute;er un fichier B3XXX_TPXML.zip (XXX est votre num&eacute;ro de bin&ocirc;me) dans laquelle vous allez mettre le document XML modifié, la feuille de style XSL finale, le résultat de la transformation en .html, le document r&eacute;ponse &agrave; la partie DOM/Ajax et un document contenant vos r&eacute;ponses comment&eacute;es aux questions de la premi&egrave;re partie, les diff&eacute;rentes requ&ecirc;tes XQuery de la deuxi&egrave;me partie ainsi que des &eacute;lements de leurs r&eacute;sultats et les r&eacute;ponses &agrave; la troisi&egrave;me partie. Num&eacute;rotez les r&eacute;ponses et recopiez leurs &eacute;nonc&eacute;s. 
-    <span class="instruction">Pour &quot;colorier &quot; vos morceaux de code vous pouvez utiliser le site : <a href="http://www.tohtml.com/" target="_blank">http://www.tohtml.com/</a></span> Vous pouvez r&eacute;diger votre compte rendu en html. </p>
-  <p>Cette archive est &agrave; envoyer par courrier &eacute;lectronique <strong>avant 14h00 le lendemain de la deuxième séance</strong> à : <code>elod.egyed-zsigmond@insa-lyon.fr</code> et <code>arnaud.renard@insa-lyon.fr</code> et <code>vincent.primault@insa-lyon.fr</code> en précisant en objet <code>[TP-3IF-BDSS] B3XXX</code> (où <code>XXX</code> est votre numéro de binôme).</p>
-  <h2>Pr&eacute;paration</h2>
-  <ul>
-    <li style="color: black;">Cr&eacute;ez un r&eacute;pertoire appel&eacute; TPXML sur <code>C:\temp</code>.</li>
-    <li style="color: black;">R&eacute;cup&eacute;rez le
-      dossier compact&eacute; <a href="TPXML.zip">TPXML.zip</a> et copiez son
-      contenu dans le r&eacute;pertoire cr&eacute;&eacute; avant.</li>
-    <li>Dans ce dossier, vous trouverez :
-      <ul>
-          <li>cet &eacute;nonc&eacute; (<code>sujetTP.html</code>). <span class="Style1">Fermez le fichier actuellement ouvert et ouvrez celle-ci avant d'aller plus loin!</span></li>
-        <li>une instance XML (<code>petit_prince_3IF.xml</code>) qui
-          contient un
-          extrait du Petit Prince de Saint-Exup&eacute;ry en fran&ccedil;ais et en hongrois,</li>
-        <li>une DTD pour les documents bilingues (<code>petit_prince_3IF.dtd</code>),</li>
-        <li>un fichier HTML (<code>petit_prince_3IF.exemple.html</code>)
-          qui donne le r&eacute;sultat &agrave; obtenir pour la premi&egrave;re partie,</li>
-        <li>un r&eacute;pertoire contenant des images &agrave; utiliser pour le TP.</li>
-        <li>l'&eacute;nonc&eacute; pour la partie DOM/Ajax (<code>ajaxSujet.html</code>) </li>
-        <li>un r&eacute;pertoire (<code>fichiersPourLaPartieAjax</code>) avec les fichiers pour la partie DOM/Ajax. </li>
-      </ul>
-    </li>
-    <li>Prenez le temps de bien observer et comprendre les fichiers XML
-      et DTD que vous allez manipuler.</li>
-  </ul>
-  <p>&nbsp;</p>
-  <h2>Première partie&nbsp;: XML, DTD, XPath, XSLT </h2>
-<h3>Etape 1&nbsp;: Mise à jour de l'instance [XML, DTD]	</h3>
-<ul>
-  <li>L'instance <code>petit_prince_3IF.xml</code> ne correspond pas
-tout à
-fait avec la DTD. Commencez donc par corriger le fichier XML. Quels
-éléments
-étaient manquants ou erronés&nbsp;? (<span class="instruction">utilisez
-    <code>XML/Check this document (Ctrl+K)</code></span>)</li>
-  <li>Remplacez ensuite le contenu des sous-éléments de <strong>info_traitements</strong>,
-notamment&nbsp;:
+    <h1>TP 3IF XML, XSL, XQuery, DOM 2014-2015</h1>
+
+    <h2>Introduction</h2>
+
+    <p>Lisez attentivement et suivez les consignes!</p>
+
+    <p>Le but de ce TP est de vous initier &agrave; la manipulation des
+        documents XML avec des outils d&eacute;di&eacute;s et dans le contexte d'un navigateur web. Vous allez pour
+        cela &eacute;tudier, valider, modifier et
+        interroger un fichier XML. Pour la premi&egrave;re partie du TP, vous allez utilisez l'outil EditX <span
+                class="instruction">(<code></code>\\servif-home\fic_eleves\Espace Pedagogique\3IF\Systeme d'Information\Bases de Donnees semi-structurees\outils\editix-free-2010-raw\bin)</span>,
+        pour la deuxi&egrave;me partie l'outil BaseX, pour la troisi&egrave;me partie, le navigateur Firefox et
+        l'extension FireBug. </p>
+
+    <p class="instruction"> Un site tr&egrave;s utile pour le TP: <a href="http://www.w3schools.com/default.asp"
+                                                                     onclick="window.open(this.href); return false;">W3Schools</a>
+        (r&eacute;f&eacute;rence et tutoriels sur XML, DTD/Schema, XSL, XQuery...)</p>
+
+    <p>Vous allez cr&eacute;er un fichier B3XXX_TPXML.zip (XXX est votre num&eacute;ro de bin&ocirc;me) dans laquelle
+        vous allez mettre le document XML modifié, la feuille de style XSL finale, le résultat de la transformation en
+        .html, le document r&eacute;ponse &agrave; la partie DOM/Ajax et un document contenant vos r&eacute;ponses
+        comment&eacute;es aux questions de la premi&egrave;re partie, les diff&eacute;rentes requ&ecirc;tes XQuery de la
+        deuxi&egrave;me partie ainsi que des &eacute;lements de leurs r&eacute;sultats et les r&eacute;ponses &agrave;
+        la troisi&egrave;me partie. Num&eacute;rotez les r&eacute;ponses et recopiez leurs &eacute;nonc&eacute;s.
+        <span class="instruction">Pour &quot;colorier &quot; vos morceaux de code vous pouvez utiliser le site : <a
+                href="http://www.tohtml.com/" target="_blank">http://www.tohtml.com/</a></span> Vous pouvez r&eacute;diger
+        votre compte rendu en html. </p>
+
+    <p>Cette archive est &agrave; envoyer par courrier &eacute;lectronique <strong>avant 14h00 le lendemain de la
+        deuxième séance</strong> à : <code>elod.egyed-zsigmond@insa-lyon.fr</code> et
+        <code>arnaud.renard@insa-lyon.fr</code> et <code>vincent.primault@insa-lyon.fr</code> en précisant en objet
+        <code>[TP-3IF-BDSS] B3XXX</code> (où <code>XXX</code> est votre numéro de binôme).</p>
+
+    <h2>Pr&eacute;paration</h2>
     <ul>
-      <li>vos noms comme "auteurs" de mise en page (conservez au moins
-deux "auteurs": si vous travaillez seul, prenez Toto comme binôme),</li>
-      <li>votre numéro de binôme,<br />
-      </li>
-      <li>la date d'aujourd'hui évidement.</li>
+        <li style="color: black;">Cr&eacute;ez un r&eacute;pertoire appel&eacute; TPXML sur <code>C:\temp</code>.</li>
+        <li style="color: black;">R&eacute;cup&eacute;rez le
+            dossier compact&eacute; <a href="TPXML.zip">TPXML.zip</a> et copiez son
+            contenu dans le r&eacute;pertoire cr&eacute;&eacute; avant.
+        </li>
+        <li>Dans ce dossier, vous trouverez :
+            <ul>
+                <li>cet &eacute;nonc&eacute; (<code>sujetTP.html</code>). <span class="Style1">Fermez le fichier actuellement ouvert et ouvrez celle-ci avant d'aller plus loin!</span>
+                </li>
+                <li>une instance XML (<code>petit_prince_3IF.xml</code>) qui
+                    contient un
+                    extrait du Petit Prince de Saint-Exup&eacute;ry en fran&ccedil;ais et en hongrois,
+                </li>
+                <li>une DTD pour les documents bilingues (<code>petit_prince_3IF.dtd</code>),</li>
+                <li>un fichier HTML (<code>petit_prince_3IF.exemple.html</code>)
+                    qui donne le r&eacute;sultat &agrave; obtenir pour la premi&egrave;re partie,
+                </li>
+                <li>un r&eacute;pertoire contenant des images &agrave; utiliser pour le TP.</li>
+                <li>l'&eacute;nonc&eacute; pour la partie DOM/Ajax (<code>ajaxSujet.html</code>)</li>
+                <li>un r&eacute;pertoire (<code>fichiersPourLaPartieAjax</code>) avec les fichiers pour la partie
+                    DOM/Ajax.
+                </li>
+            </ul>
+        </li>
+        <li>Prenez le temps de bien observer et comprendre les fichiers XML
+            et DTD que vous allez manipuler.
+        </li>
     </ul>
-  </li>
-  <li> Maintenant votre document doit être bien formé <strong>et</strong>
-valide.</li>
-  </ul>
-<h3>Etape 2 : Exploration de l'instance [XPath]</h3>
-<p>Dans cette étape, vous allez construire des expressions XPath
-absolues ou relatives pour sélectionner les noeuds (les balises XML)
-indiqués. 
-Ces expressions pourront vous resservir (en les adaptant) dans l'étape
-suivante.
-</p>
-<p class="instruction">Ouvrez la bo&icirc;te de dialogue XPath (<code>XML/Evaluate XPath </code>).
-Entrez votre expression XPath.</p>
-<ol>
-  <li>Donnez les expressions XPath pour
-sélectionner les éléments suivants:
+    <p>&nbsp;</p>
+
+    <h2>Première partie&nbsp;: XML, DTD, XPath, XSLT </h2>
+
+    <h3>Etape 1&nbsp;: Mise à jour de l'instance [XML, DTD] </h3>
+    <ul>
+        <li>L'instance <code>petit_prince_3IF.xml</code> ne correspond pas
+            tout à
+            fait avec la DTD. Commencez donc par corriger le fichier XML. Quels
+            éléments
+            étaient manquants ou erronés&nbsp;? (<span class="instruction">utilisez
+    <code>XML/Check this document (Ctrl+K)</code></span>)
+        </li>
+        <li>Remplacez ensuite le contenu des sous-éléments de <strong>info_traitements</strong>,
+            notamment&nbsp;:
+            <ul>
+                <li>vos noms comme "auteurs" de mise en page (conservez au moins
+                    deux "auteurs": si vous travaillez seul, prenez Toto comme binôme),
+                </li>
+                <li>votre numéro de binôme,<br/>
+                </li>
+                <li>la date d'aujourd'hui évidement.</li>
+            </ul>
+        </li>
+        <li> Maintenant votre document doit être bien formé <strong>et</strong>
+            valide.
+        </li>
+    </ul>
+    <h3>Etape 2 : Exploration de l'instance [XPath]</h3>
+
+    <p>Dans cette étape, vous allez construire des expressions XPath
+        absolues ou relatives pour sélectionner les noeuds (les balises XML)
+        indiqués.
+        Ces expressions pourront vous resservir (en les adaptant) dans l'étape
+        suivante.
+    </p>
+
+    <p class="instruction">Ouvrez la bo&icirc;te de dialogue XPath (<code>XML/Evaluate XPath </code>).
+        Entrez votre expression XPath.</p>
     <ol>
-      <li>Les auteurs de la mise en forme</li>
-      <li>Les paragraphes de dialogue</li>
-      <li>Les phrases en français</li>
-      <li>La deuxième phrase de chaque paragraphe</li>
-      <li>La dixième phrase du texte
-(pensez à utiliser les parenthèses)</li>
-      <li>Les phrases  contenant le mot "mouton" (<span class="instruction">utilisez
+        <li>Donnez les expressions XPath pour
+            sélectionner les éléments suivants:
+            <ol>
+                <li>Les auteurs de la mise en forme</li>
+                <li>Les paragraphes de dialogue</li>
+                <li>Les phrases en français</li>
+                <li>La deuxième phrase de chaque paragraphe</li>
+                <li>La dixième phrase du texte
+                    (pensez à utiliser les parenthèses)
+                </li>
+                <li>Les phrases contenant le mot "mouton" (<span class="instruction">utilisez
           la
-          fonction contains()</span> )</li>
-      <li>Listez les modalit&eacute;s des phrases du texte (sans doublons) </li>
+          fonction contains()</span> )
+                </li>
+                <li>Listez les modalit&eacute;s des phrases du texte (sans doublons)</li>
+            </ol>
+        </li>
     </ol>
-  </li>
-  </ol>
-<h3><a id="etape2">Etape 3</a> : Mise en
-forme du corpus Le Petit Prince [XSLT]<br />
-</h3>
-<p>Vous allez maintenant produire une feuille de style XSL qui
-permet la transformation de l'instance du document XML en document
-HTML. Cette feuille va comprendre des éléments de mise en forme HTML
-et des commandes XSLT permettant de gérer le contenu. Le fichier HTML
-généré devra être le plus similaire possible à <a href="petit_prince_3IF.exemple.html" onclick="window.open(this.href); return false;">ce résultat</a>.</p>
-<p class="instruction">Utilisez sous XMLPad la fonction <code>File/New/XSL Stylesheet
-</code> pour créer le fichier
-feuille de style,
-sauvegardez-le ensuite sous le nom de <code>petit_prince_3IF.xsl</code>
-dans
-le répertoire de votre projet.</p>
-<p>Voici les caractéristiques attendues de cette feuille de style
-(recopiez l'en-tête et les premières règles puis inspirez-vous en pour
-créer les règles suivantes)&nbsp;:</p>
-<p>Si vous voulez tester votre feuille de style dans un navigateur, rajoutez dans l'en-tête de votre document XML un
-appel à la feuille de style que vous allez créer</p>
-<p class="xml"> &lt;?xml-stylesheet type="text/xsl"
-href="PetitPrince.xsl"?&gt; </p>
-<h4>3.1 En-tête du fichier </h4>
-<p>L'en-tête de la feuille de style a été créé automatiquement par le
-système. </p>
-<p class="xml">&lt;?xml version = "1.0" encoding = "UTF-8"?&gt;<br />
-&lt;xsl:stylesheet version="1.0"
-xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</p>
-<p class="instruction">Si vous voulez que le résultat s'affiche en
-HTML, ajouter la ligne : </p>
-<p class="xml"> &lt;xsl:output method="html" /&gt; </p>
-<p class="instruction">comme premier élément fils de l'élément <code>&lt;xsl:stylesheet&gt;</code>.
-Pour afficher le résultat en XML, remplacer 'html' par 'xml' (notamment
-pour les premières questions).</p>
-<h4>3.2  Contexte HTML du document</h4>
-<p>On décrit un modèle général qui regroupe les autres. Ce modèle
-s'applique à la racine (défini par le chemin XPath : "&nbsp;/&nbsp;").
-Il débute par les informations HTML qui seront reportées dans le
-document résultat. On retrouve ainsi la structure d'un document HTML
-classique. Les modèles suivants seront appliqués à l'emplacement de la
-commande <code>&lt;xsl:apply-templates/&gt;</code></p>
-<p class="xml">&lt;xsl:template match="/"&gt;<br />
-&lt;html&gt;<br />
-&lt;head&gt;<br />
-&lt;title&gt;<br />
-&lt;xsl:value-of select="//titre"/&gt;<br />
-&lt;xsl:text&gt; de &lt;/xsl:text&gt;<br />
-&lt;xsl:value-of select="//auteur"/&gt;<br />
-&lt;/title&gt;<br />
-&lt;/head&gt;<br />
-&lt;body style="background-color:white;"&gt;<br />
-&lt;xsl:apply-templates/&gt;<br />
-&lt;/body&gt;<br />
-&lt;/html&gt;<br />
-&lt;/xsl:template&gt; </p>
-<h4>3.3 Affichage du titre en alignement centré entre des balises html <code>&lt;h1&gt;</code>
-  et en bleu </h4>
-Le premier modèle va définir le traitement à apporter à l'élément
-"titre". Il s'agit ici des instructions Html : alignement, taille et
-couleur de la police.
-<p class="xml">&lt;xsl:template match="titre"&gt;<br>
-  &lt;h1 style=&quot;text-align:center; color:blue;&quot;&gt;<br>
-&lt;xsl:apply-templates/&gt;<br>
+    <h3><a id="etape2">Etape 3</a> : Mise en
+        forme du corpus Le Petit Prince [XSLT]<br/>
+    </h3>
 
-&lt;/h1&gt;<br>
-&lt;/xsl:template&gt;</p>
-<h4>3.4 Affichage de l&#8217;auteur de l'ouvrage <code>&lt;xsl:template
-match="auteur"&gt;</code></h4>
-<p>De la même manière, vous allez décrire la mise en page de
-l'élément "auteur" </p>
-<ul>
-<li>en taille <code>&lt;h2&gt;</code></li>
-<li>centré et en italique <code>style=&quot;text-align:center; font-style: italic;&quot;</code></li>
+    <p>Vous allez maintenant produire une feuille de style XSL qui
+        permet la transformation de l'instance du document XML en document
+        HTML. Cette feuille va comprendre des éléments de mise en forme HTML
+        et des commandes XSLT permettant de gérer le contenu. Le fichier HTML
+        généré devra être le plus similaire possible à <a href="petit_prince_3IF.exemple.html"
+                                                          onclick="window.open(this.href); return false;">ce
+            résultat</a>.</p>
 
-<li>avec des sauts de ligne avant et aprés <code>&lt;br/&gt;</code></li>
-</ul>
+    <p class="instruction">Utilisez sous XMLPad la fonction <code>File/New/XSL Stylesheet
+    </code> pour créer le fichier
+        feuille de style,
+        sauvegardez-le ensuite sous le nom de <code>petit_prince_3IF.xsl</code>
+        dans
+        le répertoire de votre projet.</p>
 
-<h4>3.5 Affichage des informations sur les traitements <code>&lt;xsl:template
-match="info_traitements"&gt;</code></h4>
-<ul>
-<li> entre balises <code>&lt;blockquote&gt;</code></li>
-<li>couleur de police = darkgreen</li>
+    <p>Voici les caractéristiques attendues de cette feuille de style
+        (recopiez l'en-tête et les premières règles puis inspirez-vous en pour
+        créer les règles suivantes)&nbsp;:</p>
 
-<li> saut de ligne entre les données
-<ul>
-<li>But du TP du "date" : "but"</li>
-<li>Auteurs : "1er auteur" et "2ème auteur"</li>
-<li>Email du responsable : "email" </li>
-</ul>
-</li>
-<li>affichage d'une ligne horizontale: <samp><code>&lt;hr/&gt;</code></samp></li>
-</ul>
-<h4>3.6 Affichage des images</h4>
+    <p>Si vous voulez tester votre feuille de style dans un navigateur, rajoutez dans l'en-tête de votre document XML un
+        appel à la feuille de style que vous allez créer</p>
 
-<p>On va maintenant permettre aux images de s'afficher :</p>
-<p class="xml">&lt;xsl:template match="image"&gt;<br>
-&lt;div align="center"&gt;<br>
-&lt;img&gt;<br>
-&lt;xsl:attribute name="src"&gt;<br>
-&lt;xsl:value-of select="@chemin"/&gt;<br>
-&lt;/xsl:attribute&gt;<br>
-&lt;/img&gt;<br>
-&lt;/div&gt;<br>
+    <p class="xml"> &lt;?xml-stylesheet type="text/xsl"
+        href="PetitPrince.xsl"?&gt; </p>
+    <h4>3.1 En-tête du fichier </h4>
 
-&lt;/xsl:template&gt; </p>
-<h3>Etape 4 <a name="etape3"></a>: A vous de
-jouer</h3>
-<p>Ouvrez maintenant votre document XML dans Internet Explorer.
-Que constatez-vous ? Vous allez maintenant completer la feuille de
-style pour arriver à <a href="petit_prince_3IF.exemple.html" target="_top" class="Style1">ce résultat</a> </p>
-<h4> 4.1 sauter une ligne entre les paragraphes</h4>
-<ul>
-<li>Pour celà, traitez les éléments "paragraphe" entre des
-balise de paragraphe html <code>&lt;p&gt;&lt;/p&gt;</code></li>
+    <p>L'en-tête de la feuille de style a été créé automatiquement par le
+        système. </p>
 
-</ul>
-<h4> 4.2 mise en forme du texte en fonction de la langue</h4>
-<ul>
-<li> traduction hongrois en brun (<code>brown</code>)
-et italique</li>
-</ul>
-<h4>4.3 mise en évidence des phrases de dialogue du narrateur et du
-Petit Prince</h4>
-<ul>
-<li> dans un tableau en précisant dans la première case qui
-parle en ins&eacute;rant l'image &quot;images/LePetitPrince.png&quot; pour le petit prince et &quot;images/Narrateur.png&quot; pour le narrateur. Vous pouvez vous serir du syntaxe : <code>&lt;img src=&quot;images/{@locuteur}.png&quot;/&gt;</code>. </li>
+    <p class="xml">&lt;?xml version = "1.0" encoding = "UTF-8"?&gt;<br/>
+        &lt;xsl:stylesheet version="1.0"
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</p>
 
-<li> Aide sur la syntaxe des tableaux en html :</li>
-</ul>
-<div align="left">
-<table align="center">
-<tbody>
-<tr>
-<td>&lt;table border="3" width="600"
-align="center"&gt;</td>
-</tr>
-<tr>
-<td>
-<table border="3" width="600">
-<tbody>
-<tr>
-<td>
+    <p class="instruction">Si vous voulez que le résultat s'affiche en
+        HTML, ajouter la ligne : </p>
 
-<table border="0" width="600">
-<tbody>
-<tr>
-<td bgcolor="#99FF66">&lt;tr&gt;</td>
-</tr>
-<tr>
-<td bgcolor="#99FF66">
-<table align="center" border="1" width="90%">
-<tbody>
-<tr bgcolor="#ffff99">
-<td>&lt;td&gt;&lt;/td&gt;</td>
-<td>&lt;td&gt;&lt;/td&gt;</td>
+    <p class="xml"> &lt;xsl:output method="html" /&gt; </p>
 
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td bgcolor="#99FF66">&lt;/tr&gt;</td>
-</tr>
-<tr>
-<td bgcolor="#99FF66">&lt;tr&gt;</td>
-</tr>
-<tr>
-<td bgcolor="#99FF66">
-<table align="center" border="1" width="90%">
-<tbody>
+    <p class="instruction">comme premier élément fils de l'élément <code>&lt;xsl:stylesheet&gt;</code>.
+        Pour afficher le résultat en XML, remplacer 'html' par 'xml' (notamment
+        pour les premières questions).</p>
+    <h4>3.2 Contexte HTML du document</h4>
 
-<tr bgcolor="#ffff99">
-<td>&lt;td&gt;&lt;/td&gt;</td>
-<td>&lt;td&gt;&lt;/td&gt;</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td bgcolor="#99FF66">&lt;/tr&gt;</td>
-</tr>
-</tbody>
+    <p>On décrit un modèle général qui regroupe les autres. Ce modèle
+        s'applique à la racine (défini par le chemin XPath : "&nbsp;/&nbsp;").
+        Il débute par les informations HTML qui seront reportées dans le
+        document résultat. On retrouve ainsi la structure d'un document HTML
+        classique. Les modèles suivants seront appliqués à l'emplacement de la
+        commande <code>&lt;xsl:apply-templates/&gt;</code></p>
 
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td>&lt;/table&gt;</td>
-</tr>
-</tbody>
-</table>
-</div>
-<ul>
-<li>Astuce : pensez à utiliser une boucle et à relancer le traitement de la langue. </li>
+    <p class="xml">&lt;xsl:template match="/"&gt;<br/>
+        &lt;html&gt;<br/>
+        &lt;head&gt;<br/>
+        &lt;title&gt;<br/>
+        &lt;xsl:value-of select="//titre"/&gt;<br/>
+        &lt;xsl:text&gt; de &lt;/xsl:text&gt;<br/>
+        &lt;xsl:value-of select="//auteur"/&gt;<br/>
+        &lt;/title&gt;<br/>
+        &lt;/head&gt;<br/>
+        &lt;body style="background-color:white;"&gt;<br/>
+        &lt;xsl:apply-templates/&gt;<br/>
+        &lt;/body&gt;<br/>
+        &lt;/html&gt;<br/>
+        &lt;/xsl:template&gt; </p>
+    <h4>3.3 Affichage du titre en alignement centré entre des balises html <code>&lt;h1&gt;</code>
+        et en bleu </h4>
+    Le premier modèle va définir le traitement à apporter à l'élément
+    "titre". Il s'agit ici des instructions Html : alignement, taille et
+    couleur de la police.
+    <p class="xml">&lt;xsl:template match="titre"&gt;<br>
+        &lt;h1 style=&quot;text-align:center; color:blue;&quot;&gt;<br>
+        &lt;xsl:apply-templates/&gt;<br>
 
-</ul>
-<h4>4.4 Selection des phrases contenant "mouton" en français puis en hongrois. Mise
-en gras et gros des phrases. Rajouter l'image: &quot;images/moutonDessin.png&quot; en fin de phrase </h4>
-<ul>
-<li>Indice : utilisez l'instruction de choix et la fonction <code>contains()</code>
-de xslt.</li>
-</ul>
+        &lt;/h1&gt;<br>
+        &lt;/xsl:template&gt;</p>
+    <h4>3.4 Affichage de l&#8217;auteur de l'ouvrage <code>&lt;xsl:template
+        match="auteur"&gt;</code></h4>
 
-<h2><a id="partie2">Deuxième&nbsp;partie : XQuery </a></h2>
-<p><a id="partie2">Vous allez maintenant exploiter les données du
-fichier XML.
-L'objectif est d'obtenir à chaque fois un document XML bien formé, donc
-avec un seul élément racine. Les requêtes doivent être intégrées entre des balises XML, par exemple&nbsp;:</a></p>
-<p class="xml">
-<a id="partie2">&lt;phrases&gt;{<br />
-for $p in //phrase<br />
-return $p<br />
-}&lt;/phrases&gt;
-</a></p>
-<p class="xml">
-<a id="partie2">&lt;modalites&gt;{<br />
-for $m in distinct-values(//phrase/@modalite)<br />
-order by $m<br />
-return &lt;modalite&gt;{data($m)}&lt;/modalite&gt;<br />
-}&lt;/modalites&gt;
-</a></p>
-<p class="instruction"><a id="partie2">Vou savez deux mani&egrave;res de lancer BaseX :</a></p>
-<ol>
-  <li><a class="instruction">Copiez le fichier \\servif-home\fic_eleves\Espace Pedagogique\3IF\Systeme d'Information\Bases de Donnees semi-structurees\outils\BaseX81.zip dans C:\Temp. D&eacute;compressez-le. Exécutez le fichier BaseX.jar. </a></li>
-  <li><a class="instruction">Ex&eacute;cutez directement : \\servif-home\fic_eleves\Espace Pedagogique\3IF\Systeme d'Information\Bases de Donnees semi-structurees\outils\BaseX81.jar </a></li>
-  </ol>
-<p><a href="http://docs.basex.org/wiki/Graphical_User_Interface" target="_blank" class="instruction">BaseX est un gestionnaire de base de données XML capable d'interpréter des requêtes XQuery.
-  
-  En utilisant le menu File/New, créez une nouvelle base de données à partir du fichier petit_prince_3IF.xml avec les options par défaut proposées par BaseX.
-  
-  Affichez l'onglet de saisie de requêtes (Edit/Query Panel). Il y a deux modes de requêtes: les requêtes "simples" uniquement en XPath, et les requêtes XQuery (compatible XPath). Plus d'informations sur le site de la documentation de BaseX.org.
-</a></p>
-<p><a id="partie2">Ecrivez les requêtes XQuery pour obtenir les données
-suivantes:</a></p>
-<ol>
-  <li>Retournez les phrases en français triés en ordre alphabétique</li>
-  <li>Retournez les phrases françaises contenant le mot "mouton"</li>
-  <li>Pour chaque paragraphe: donnez son type, le nombre de phrases qui
-la compose, les modalités de ces phrases (sans répétition) ainsi que
-les locuteurs. (allez-y étape par étape). Astuce : pour avoir les
-valeurs uniques des modalités, utilisez la fonction distinct-values</li>
-  <li>Afficher la version française seulement (respectez la structure en paragraphes)</li>
-  <li>Afficher uniquement les deuxièmes phrases des paragraphes de la version française</li>
-<li>Afficher seulement les dialogues en français du narrateur</li>
-  <li>Afficher toutes les phrases du Petit Prince en français qui comporte le mot "mouton" ainsi que le nombre de ces phrases</li>
-</ol>
-<h2><a id="partie2">Troisième partie&nbsp;: DOM et ajax </a></h2>
-<p><a href="ajaxSujet.html" id="partie2">Voir l'&eacute;nonc&eacute; ici </a></p>
+    <p>De la même manière, vous allez décrire la mise en page de
+        l'élément "auteur" </p>
+    <ul>
+        <li>en taille <code>&lt;h2&gt;</code></li>
+        <li>centré et en italique <code>style=&quot;text-align:center; font-style: italic;&quot;</code></li>
+
+        <li>avec des sauts de ligne avant et aprés <code>&lt;br/&gt;</code></li>
+    </ul>
+
+    <h4>3.5 Affichage des informations sur les traitements <code>&lt;xsl:template
+        match="info_traitements"&gt;</code></h4>
+    <ul>
+        <li> entre balises <code>&lt;blockquote&gt;</code></li>
+        <li>couleur de police = darkgreen</li>
+
+        <li> saut de ligne entre les données
+            <ul>
+                <li>But du TP du "date" : "but"</li>
+                <li>Auteurs : "1er auteur" et "2ème auteur"</li>
+                <li>Email du responsable : "email"</li>
+            </ul>
+        </li>
+        <li>affichage d'une ligne horizontale: <samp><code>&lt;hr/&gt;</code></samp></li>
+    </ul>
+    <h4>3.6 Affichage des images</h4>
+
+    <p>On va maintenant permettre aux images de s'afficher :</p>
+
+    <p class="xml">&lt;xsl:template match="image"&gt;<br>
+        &lt;div align="center"&gt;<br>
+        &lt;img&gt;<br>
+        &lt;xsl:attribute name="src"&gt;<br>
+        &lt;xsl:value-of select="@chemin"/&gt;<br>
+        &lt;/xsl:attribute&gt;<br>
+        &lt;/img&gt;<br>
+        &lt;/div&gt;<br>
+
+        &lt;/xsl:template&gt; </p>
+
+    <h3>Etape 4 <a name="etape3"></a>: A vous de
+        jouer</h3>
+
+    <p>Ouvrez maintenant votre document XML dans Internet Explorer.
+        Que constatez-vous ? Vous allez maintenant completer la feuille de
+        style pour arriver à <a href="petit_prince_3IF.exemple.html" target="_top" class="Style1">ce résultat</a></p>
+    <h4> 4.1 sauter une ligne entre les paragraphes</h4>
+    <ul>
+        <li>Pour celà, traitez les éléments "paragraphe" entre des
+            balise de paragraphe html <code>&lt;p&gt;&lt;/p&gt;</code></li>
+
+    </ul>
+    <h4> 4.2 mise en forme du texte en fonction de la langue</h4>
+    <ul>
+        <li> traduction hongrois en brun (<code>brown</code>)
+            et italique
+        </li>
+    </ul>
+    <h4>4.3 mise en évidence des phrases de dialogue du narrateur et du
+        Petit Prince</h4>
+    <ul>
+        <li> dans un tableau en précisant dans la première case qui
+            parle en ins&eacute;rant l'image &quot;images/LePetitPrince.png&quot; pour le petit prince et &quot;images/Narrateur.png&quot;
+            pour le narrateur. Vous pouvez vous serir du syntaxe : <code>&lt;img src=&quot;images/{@locuteur}.png&quot;/&gt;</code>.
+        </li>
+
+        <li> Aide sur la syntaxe des tableaux en html :</li>
+    </ul>
+    <div align="left">
+        <table align="center">
+            <tbody>
+            <tr>
+                <td>&lt;table border="3" width="600"
+                    align="center"&gt;</td>
+            </tr>
+            <tr>
+                <td>
+                    <table border="3" width="600">
+                        <tbody>
+                        <tr>
+                            <td>
+
+                                <table border="0" width="600">
+                                    <tbody>
+                                    <tr>
+                                        <td bgcolor="#99FF66">&lt;tr&gt;</td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#99FF66">
+                                            <table align="center" border="1" width="90%">
+                                                <tbody>
+                                                <tr bgcolor="#ffff99">
+                                                    <td>&lt;td&gt;&lt;/td&gt;</td>
+                                                    <td>&lt;td&gt;&lt;/td&gt;</td>
+
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#99FF66">&lt;/tr&gt;</td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#99FF66">&lt;tr&gt;</td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#99FF66">
+                                            <table align="center" border="1" width="90%">
+                                                <tbody>
+
+                                                <tr bgcolor="#ffff99">
+                                                    <td>&lt;td&gt;&lt;/td&gt;</td>
+                                                    <td>&lt;td&gt;&lt;/td&gt;</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#99FF66">&lt;/tr&gt;</td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>&lt;/table&gt;</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <ul>
+        <li>Astuce : pensez à utiliser une boucle et à relancer le traitement de la langue.</li>
+
+    </ul>
+    <h4>4.4 Selection des phrases contenant "mouton" en français puis en hongrois. Mise
+        en gras et gros des phrases. Rajouter l'image: &quot;images/moutonDessin.png&quot; en fin de phrase </h4>
+    <ul>
+        <li>Indice : utilisez l'instruction de choix et la fonction <code>contains()</code>
+            de xslt.
+        </li>
+    </ul>
+
+    <h2><a id="partie2">Deuxième&nbsp;partie : XQuery </a></h2>
+
+    <p><a id="partie2">Vous allez maintenant exploiter les données du
+        fichier XML.
+        L'objectif est d'obtenir à chaque fois un document XML bien formé, donc
+        avec un seul élément racine. Les requêtes doivent être intégrées entre des balises XML, par exemple&nbsp;:</a>
+    </p>
+
+    <p class="xml">
+        <a id="partie2">&lt;phrases&gt;{<br/>
+            for $p in //phrase<br/>
+            return $p<br/>
+            }&lt;/phrases&gt;
+        </a></p>
+
+    <p class="xml">
+        <a id="partie2">&lt;modalites&gt;{<br/>
+            for $m in distinct-values(//phrase/@modalite)<br/>
+            order by $m<br/>
+            return &lt;modalite&gt;{data($m)}&lt;/modalite&gt;<br/>
+            }&lt;/modalites&gt;
+        </a></p>
+
+    <p class="instruction"><a id="partie2">Vou savez deux mani&egrave;res de lancer BaseX :</a></p>
+    <ol>
+        <li><a class="instruction">Copiez le fichier \\servif-home\fic_eleves\Espace Pedagogique\3IF\Systeme
+            d'Information\Bases de Donnees semi-structurees\outils\BaseX81.zip dans C:\Temp. D&eacute;compressez-le.
+            Exécutez le fichier BaseX.jar. </a></li>
+        <li><a class="instruction">Ex&eacute;cutez directement : \\servif-home\fic_eleves\Espace Pedagogique\3IF\Systeme
+            d'Information\Bases de Donnees semi-structurees\outils\BaseX81.jar </a></li>
+    </ol>
+    <p><a href="http://docs.basex.org/wiki/Graphical_User_Interface" target="_blank" class="instruction">BaseX est un
+        gestionnaire de base de données XML capable d'interpréter des requêtes XQuery.
+
+        En utilisant le menu File/New, créez une nouvelle base de données à partir du fichier petit_prince_3IF.xml avec
+        les options par défaut proposées par BaseX.
+
+        Affichez l'onglet de saisie de requêtes (Edit/Query Panel). Il y a deux modes de requêtes: les requêtes
+        "simples" uniquement en XPath, et les requêtes XQuery (compatible XPath). Plus d'informations sur le site de la
+        documentation de BaseX.org.
+    </a></p>
+
+    <p><a id="partie2">Ecrivez les requêtes XQuery pour obtenir les données
+        suivantes:</a></p>
+    <ol>
+        <li>Retournez les phrases en français triés en ordre alphabétique</li>
+        <li>Retournez les phrases françaises contenant le mot "mouton"</li>
+        <li>Pour chaque paragraphe: donnez son type, le nombre de phrases qui
+            la compose, les modalités de ces phrases (sans répétition) ainsi que
+            les locuteurs. (allez-y étape par étape). Astuce : pour avoir les
+            valeurs uniques des modalités, utilisez la fonction distinct-values
+        </li>
+        <li>Afficher la version française seulement (respectez la structure en paragraphes)</li>
+        <li>Afficher uniquement les deuxièmes phrases des paragraphes de la version française</li>
+        <li>Afficher seulement les dialogues en français du narrateur</li>
+        <li>Afficher toutes les phrases du Petit Prince en français qui comporte le mot "mouton" ainsi que le nombre de
+            ces phrases
+        </li>
+    </ol>
+    <h2><a id="partie2">Troisième partie&nbsp;: DOM et ajax </a></h2>
+
+    <p><a href="ajaxSujet.html" id="partie2">Voir l'&eacute;nonc&eacute; ici </a></p>
 </div>
 
 <div style="height: 100pt;">
 </div>
 
-</body></html>
+</body>
+</html>

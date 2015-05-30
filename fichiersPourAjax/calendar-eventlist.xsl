@@ -8,9 +8,7 @@
                 <li class="media">
                     <div class="media-body">
                         <h4 class="media-heading">
-
                             <xsl:value-of select="title"/>
-
                         </h4>
                         <div>
                             le <xsl:value-of select="substring(dtstart,7,2)"/>-<xsl:value-of
